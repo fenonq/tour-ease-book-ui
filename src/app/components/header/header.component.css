@@ -1,0 +1,24 @@
+.header {
+  color: black;
+  text-align: center;
+  margin: 20px 0 0;
+  padding: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.signup-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-navigation-link {
+  color: #6d7072;
+}

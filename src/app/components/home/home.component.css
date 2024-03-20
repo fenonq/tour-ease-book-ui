@@ -1,0 +1,30 @@
+.background-image {
+  width: 100%;
+  height: auto;
+}
+
+.test {
+  top: 130px;
+  right: 100px;
+}
+
+.vertical-line {
+  background-color: black;
+  width: 2px;
+}
+
+.height-200 {
+  height: 200px;
+}
+
+.height-150 {
+  height: 150px;
+}
+
+.color-grey {
+  color: black;
+}
+
+.black-shadow {
+  box-shadow: 1px 5px 5px black;
+}
