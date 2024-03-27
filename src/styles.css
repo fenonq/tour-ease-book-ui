@@ -29,3 +29,51 @@ body {
   font-weight: 600;
   font-style: normal;
 }
+
+.fs-1vw {
+  font-size: 0.6vw;
+}
+
+.fs-2vw {
+  font-size: 0.7vw;
+}
+
+.fs-3vw {
+  font-size: 0.8vw;
+}
+
+.fs-4vw {
+  font-size: 0.9vw;
+}
+
+.fs-5vw {
+  font-size: 1vw;
+}
+
+.fs-6vw {
+  font-size: 1.1vw;
+}
+
+.fs-7vw {
+  font-size: 1.2vw;
+}
+
+.fs-h2-vw {
+  font-size: 1.6vw;
+}
+
+.fs-h1-vw {
+  font-size: 2vw;
+}
+
+.gap-1vh {
+  gap: 1vh;
+}
+
+.mb-07vh {
+  margin-bottom: 0.7vh;
+}
+
+.mb-1vh {
+  margin-bottom: 1vh;
+}

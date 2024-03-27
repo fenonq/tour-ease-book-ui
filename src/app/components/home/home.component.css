@@ -85,15 +85,30 @@
   background-color: #dfe2e7;
   padding-left: 1rem;
   padding-right: 1rem;
-  width: 40%;
+  height: 20%;
 
   border-radius: 20px;
 }
 
-.fs-1vh {
-  font-size: 1vh;
-}
-
 button {
   background-color: white;
+  border-color: black;
 }
+
+button:hover {
+  background-color: #dfe2e7;
+  border-color: black;
+}
+
+.submit-button {
+  width: 40%;
+}
+
+/*@media only screen and (max-width: 1100px) {*/
+/*  .responsive-text {*/
+/*    font-size: 12px;*/
+/*    p {*/
+/*      font-size: 12px;*/
+/*    }*/
+/*  }*/
+/*}*/
