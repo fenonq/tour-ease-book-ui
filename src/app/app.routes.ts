@@ -3,10 +3,12 @@ import {RegistrationComponent} from "./components/registration/registration.comp
 import {LoginComponent} from "./components/login/login.component";
 import {HomeComponent} from "./components/home/home.component";
 import {TripFlowComponent} from "./components/trip-flow/trip-flow.component";
+import {TravelOffersComponent} from "./components/travel-offers/travel-offers.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'flow', component: TripFlowComponent },
+  { path: 'travelOffers', component: TravelOffersComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
 ];

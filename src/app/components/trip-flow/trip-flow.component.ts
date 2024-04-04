@@ -1,6 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {HttpService} from "../../services/http.service";
+import {SearchRequestService} from "../../services/search-request.service";
+import {Router} from "@angular/router";
+
+export interface GetOffersRequest {
+  // private VendorType vendorType;
+  // private int locationId;
+  // private LocalDate from;
+  // private LocalDate to;
+  vendorType: number;
+  locationId: number;
+  from: Date;
+  to: Date;
+}
 
 @Component({
   selector: 'app-trip-flow',
@@ -19,10 +33,10 @@ import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 export class TripFlowComponent implements OnInit {
 
   hotelSearchForm: FormGroup;
-  locations: string[] = ['Location 1', 'Location 2', 'Location 3'];
+  locations: string[] = ['Location 1', 'Location 2', '2'];
   selectedForm: string = 'hotel';
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private searchRequest: SearchRequestService, private router: Router) {
     this.hotelSearchForm = this.formBuilder.group({
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required],
@@ -53,6 +67,16 @@ export class TripFlowComponent implements OnInit {
       return;
     }
 
+    const rq = {
+      vendorType: 1,
+      locationId: this.hotelSearchForm.controls['location'].value,
+      from: this.hotelSearchForm.controls['dateFrom'].value,
+      to: this.hotelSearchForm.controls['dateTo'].value
+    } as GetOffersRequest;
+
+
+    this.searchRequest.setScope(rq);
+    this.router.navigate(['/travelOffers'])
     console.log('Search parameters:', this.hotelSearchForm.value);
   }
 

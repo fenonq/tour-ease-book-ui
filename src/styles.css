@@ -3,7 +3,7 @@
 body {
   margin: 0;
   width: 100%;
-
+  height: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -76,4 +76,8 @@ body {
 
 .mb-1vh {
   margin-bottom: 1vh;
+}
+
+.w-45 {
+  width: 45%;
 }

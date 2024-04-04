@@ -1,6 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
+import {HttpService} from "../../services/http.service";
+import {AuthorizationService} from "../../services/authorization.service";
+import {Router} from "@angular/router";
+
+export interface SignInRequest {
+  username: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -15,25 +23,41 @@ import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
-  registrationForm: FormGroup;
+  loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.registrationForm = this.fb.group({
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private httpService: HttpService,
+    private authorizationService: AuthorizationService
+  ) {
+    this.loginForm = this.fb.group({
       username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
   ngOnInit(): void {
-    console.log(12312)
   }
 
   onSubmit() {
-    if (this.registrationForm.valid) {
-      // Ваш код для обробки реєстрації тут
-      console.log('Форма відправлена:', this.registrationForm.value);
-    } else {
-      console.log('Форма недійсна. Перевірте помилки.');
+    if (this.loginForm.invalid) {
+      return;
     }
+
+    const signInRq = {
+      username: this.loginForm.controls['username'].value,
+      password: this.loginForm.controls['password'].value
+    } as SignInRequest;
+
+    this.httpService.post('http://localhost:8765/signIn', signInRq).subscribe({
+      next: (response) => {
+        this.authorizationService.setJwtToken(response);
+        this.router.navigate(['']);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 }
