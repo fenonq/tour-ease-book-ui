@@ -1,0 +1,93 @@
+<div *ngIf="travelOfferDetails | async as offer" class="container mt-5">
+  <div class="d-flex align-items-center justify-content-between">
+    <div>
+      <div class="d-flex gap-1vh align-items-center">
+        <span class="fs-h1-vw fw-bold">{{ offer.name }}</span>
+        <i *ngFor="let _ of [].constructor(offer.stars)" class="fas fa-star fs-5vw"></i>
+      </div>
+      <p class="fs-4vw">{{ offer.location.city }}, {{ offer.location.country }}</p>
+    </div>
+    <div class="mark-block">
+      <span class="fs-3vw">{{getHotelRating(offer.reviews)}}</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div *ngIf="offer.mediaList.length > 0" id="hotelImagesCarousel"
+         class="carousel slide carousel-fade w-75 m-auto p-2vw">
+      <div class="carousel-indicators">
+        <button *ngFor="let _ of offer.mediaList; let i = index" type="button"
+                [attr.data-bs-target]="'#hotelImagesCarousel'"
+                [attr.data-bs-slide-to]="i"
+                [class.active]="i === 0"
+                [attr.aria-label]="'Slide ' + (i + 1)"></button>
+      </div>
+      <div class="carousel-inner">
+        <div *ngFor="let media of offer.mediaList; let isFirst = first" class="carousel-item" [class.active]="isFirst">
+          <img [src]="media.source" class="d-block w-100" alt="Hotel Image">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#hotelImagesCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#hotelImagesCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+
+    <div class="card-body">
+      <div class="offer-details-block">
+        <span class="fs-5vw fw-bold">Загальна інформація</span>
+        <p class="card-text fs-3vw pt-1">{{ offer.description }}</p>
+      </div>
+      <div class="offer-details-block">
+        <span class="fs-5vw fw-bold pb">Зручності</span>
+        <div class="d-flex flex-wrap">
+          <div class="w-25 fs-3vw p-2vw" *ngFor="let amenity of offer.amenities">
+            <i class="fas fa-check"></i> {{ amenity }}
+          </div>
+        </div>
+      </div>
+
+      <div class="offer-details-block">
+        <span class="fs-5vw fw-bold">Кімнати</span>
+        <div class="d-flex flex-wrap">
+          <div *ngFor="let room of offer.rooms" class="room-block">
+            <div class="card-body room-block-body gap-1vh">
+              <span class="fs-5vw fw-bold mb-1vh">{{ room.roomType }}</span>
+              <span class="fs-3vw">₴{{ room.price }} за ніч</span>
+              <span class="fs-3vw">Максимальна кількість людей: {{ room.capacity }}</span>
+              <div *ngIf="room.beds && room.beds.length > 0">
+                <span class="fs-4vw fw-bold">Ліжка в кімнаті:</span>
+                <ul class="list-unstyled">
+                  <li *ngFor="let bed of room.beds">
+                    <span class="fs-3vw">{{ bed.number }} x {{ bed.type | titlecase }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-primary offer-button text-black"><span class="fs-3vw">В кошик</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="my-3">
+    <span class="fs-h3-vw fw-bold">Останні відгуки</span>
+    <div *ngFor="let review of getLastReviews(offer.reviews)"
+         class="d-flex flex-column gap-1vh border-top mt-3vw pt-3vw">
+      <span class="fs-4vw fw-bold">{{ review.userId }}</span>
+      <div class="d-flex flex-column">
+        <span class="fs-3vw">{{ review.comment }}</span>
+        <span class="fs-3vw">Оцінка: {{ review.rating }} <i class="fas fa-star fa-star-color"></i></span>
+      </div>
+    </div>
+    <button *ngIf="offer.reviews?.length > displayedReviews" class="btn btn-primary offer-button text-black"
+            (click)="getMoreReviews()"><span class="fs-3vw">Більше</span></button>
+  </div>
+</div>

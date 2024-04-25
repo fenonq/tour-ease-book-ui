@@ -58,6 +58,10 @@ body {
   font-size: 1.2vw;
 }
 
+.fs-h3-vw {
+  font-size: 1.4vw;
+}
+
 .fs-h2-vw {
   font-size: 1.6vw;
 }
@@ -78,6 +82,42 @@ body {
   margin-bottom: 1vh;
 }
 
+.mt-2vw {
+  margin-top: 0.5vw;
+}
+
+.mt-3vw {
+  margin-top: 0.75vw;
+}
+
+.w-15 {
+  width: 15%;
+}
+
 .w-45 {
   width: 45%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.p-2vw {
+  padding: 0.5vw;
+}
+
+.pb-1vw {
+  padding-bottom: 0.25vw;
+}
+
+.pt-1vw {
+  padding-top: 0.25vw;
+}
+
+.pt-2vw {
+  padding-top: 0.5vw;
+}
+
+.pt-3vw {
+  padding-top: 0.75vw;
 }
