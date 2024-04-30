@@ -32,7 +32,7 @@ export class RegistrationComponent implements OnInit {
     private httpService: HttpService,
     private authorizationService: AuthorizationService
   ) {
-    this.registrationForm = this.fb.group({
+    this.registrationForm = this.fb.group({ // todo
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]]

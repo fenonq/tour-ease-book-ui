@@ -22,6 +22,7 @@ export class HotelComponent implements OnInit {
   ngOnInit(): void {
 
   }
+  // todo cut amenities show only 3-5
 
   getOfferMinPrice(offer: any): number {
     // @ts-ignore

@@ -8,7 +8,11 @@ import {AuthorizationService} from "./authorization.service";
 })
 export class HttpService {
 
-  constructor(private http: HttpClient, private authorizationService: AuthorizationService) { }
+  constructor(
+    private http: HttpClient,
+    private authorizationService: AuthorizationService
+  ) {
+  }
 
   // Метод для виконання GET-запиту
   get(url: string): Observable<any> {

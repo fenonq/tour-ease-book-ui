@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthorizationService} from "../../services/authorization.service";
 import {NgIf} from "@angular/common";
+import {ShoppingCartService} from "../../services/shopping-cart.service";
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,8 @@ import {NgIf} from "@angular/common";
 export class HeaderComponent {
 
   constructor(
-    public authorizationService: AuthorizationService
+    public authorizationService: AuthorizationService,
+    public cartService: ShoppingCartService
   ) {
   }
 

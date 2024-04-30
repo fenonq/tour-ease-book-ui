@@ -1,0 +1,23 @@
+<div class="card-body room-block-body gap-1vh">
+  <div class="d-flex flex-column gap-2vh">
+    <span class="fs-5vw fw-bold mb-1vh">{{ room.roomType }}</span>
+    <span class="fs-3vw">₴{{ room.price }} за ніч</span>
+    <span class="fs-3vw">Максимальна кількість людей: {{ room.capacity }}</span>
+    <div *ngIf="room.beds && room.beds.length > 0">
+      <span class="fs-4vw fw-bold">Ліжка в кімнаті:</span>
+      <ul class="list-unstyled">
+        <li *ngFor="let bed of room.beds">
+          <span class="fs-3vw">{{ bed.number }} x {{ bed.type | titlecase }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button *ngIf="!isAdded" class="btn btn-primary offer-button text-black" (click)="addToCart(offerId, room.roomId)">
+      <span class="fs-3vw">В кошик</span>
+    </button>
+    <div *ngIf="isAdded" class="icon-check d-flex justify-content-end">
+      <i class="fas fa-check fs-6vw text-success"></i>
+    </div>
+  </div>
+</div>

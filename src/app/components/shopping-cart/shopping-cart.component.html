@@ -1,0 +1,93 @@
+<div *ngIf="!uniqueCartItems.length" class="cart-error-message">
+  <i class="fas fa-shopping-cart cart-image-fs align-items-center"></i>
+  <span class="fs-h1-vw">Корзина порожня</span>
+  <a href="/flow">
+    <button type="submit" class="btn btn-primary submit-button error-button text-black"><p class="fs-3vw m-0">Розпочати!</p></button>
+  </a>
+</div>
+<div *ngIf="uniqueCartItems.length" class="container">
+  <div class="mt-4 mt-5">
+    <span class="fs-h1-vw">Ваша корзина</span>
+    <div *ngFor="let uniqueCartItem of uniqueCartItems" class="card mb-4 shadow">
+      <div *ngIf="(getHotelById(uniqueCartItem.offerId) | async) as offer" class="d-flex">
+        <div class="m-auto">
+          <img [src]="offer.mediaList[0]?.source" class="img-fluid cart-item-image" alt="Зображення готелю">
+        </div>
+        <div class="col-md-8">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex flex-column gap-2vh w-35">
+              <div class="d-flex flex-column">
+                <span class="fs-h1-vw fw-bold">Готель</span>
+                <span class="fs-5vw fw-bold">{{ offer.name }}</span>
+                <div class="d-flex gap-1vh align-items-center pb-1vw">
+                  <i class="fas fa-location-dot fs-7 align-items-center"></i>
+                  <span class="fs-2vw">{{ offer.location.city }}, {{ offer.location.country }}</span>
+                </div>
+              </div>
+            </div>
+            <div *ngFor="let room of (getRoomsByHotelId(offer.id) | async)" class="cart-item-room">
+              <div *ngIf="getCartItemByHotelAndRoomId(offer.id, room.roomId) as cartItem" class="d-flex flex-column gap-1vh">
+                <span class="fs-5vw fw-bold">{{ room.roomType }}</span>
+                <div>
+                  <ul class="list-unstyled p-0 m-0">
+                    <li class="fs-3vw"><span class="fw-bold">Дата заїзду: </span>{{cartItem.dateFrom | date:'mediumDate'}}</li>
+                    <li class="fs-3vw"><span class="fw-bold">Дата виїзду: </span>{{cartItem.dateTo | date:'mediumDate'}}</li>
+                    <li class="fs-3vw"><span class="fw-bold">Кількість ночей: </span>{{ getNumberOfNights(cartItem) }}</li>
+                    <li class="fs-3vw"><span class="fw-bold">Ціна за ніч: </span>₴{{ room.price }}</li>
+                    <li class="fs-3vw"><span class="fw-bold">Загальна сума: </span>₴{{ room.price * getNumberOfNights(cartItem) }}</li>
+                  </ul>
+                  <button class="btn btn-outline-danger delete-button btn-sm" (click)="removeItem(offer.id, room.roomId)"><span class="fs-3vw">Видалити</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success btn-lg order-button text-black" (click)="order()"><span class="fs-4vw bold">Оформити замовлення</span></button>
+    </div>
+  </div>
+</div>
+
+
+
+<!--<div class="container mt-5">-->
+<!--  <div class="row">-->
+<!--    <div class="col-md-8">-->
+<!--      <h2 class="mb-3">Order Summary</h2>-->
+<!--      <div class="card">-->
+<!--        <div class="card-body">-->
+<!--          <h5 class="card-title">3 Items</h5>-->
+<!--          <span class="card-text">$480.00</span>-->
+<!--          <div class="pt-3">-->
+<!--            <h6>Shipping</h6>-->
+<!--            <div class="input-group mb-3">-->
+<!--              <input type="text" class="form-control" placeholder="Second Delivery" aria-label="Shipping" value="$5.00">-->
+<!--              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Options</button>-->
+<!--              <ul class="dropdown-menu dropdown-menu-end">-->
+<!--                <li><a class="dropdown-item" href="#">Shopping</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">Images</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">News</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">Finance</a></li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--            <h6>Promo Code</h6>-->
+<!--            <input type="text" class="form-control" placeholder="xxxx xxxx xxxx">-->
+<!--            <button class="btn btn-primary mt-3">Apply</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="col-md-4 bg-light py-5">-->
+<!--      <div class="sticky-top" style="top: 20px;">-->
+<!--        <h4 class="mb-3">Checkout</h4>-->
+<!--        <div>-->
+<!--          <p class="mb-2">3 Items</p>-->
+<!--          <p class="mb-2">$485.00</p>-->
+<!--          <button class="btn btn-success w-100">Checkout</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

@@ -3,8 +3,9 @@ import {SearchRequestService} from "../../services/search-request.service";
 import {HttpService} from "../../services/http.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, shareReplay, switchMap} from "rxjs";
-import {AsyncPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
-import $ from "jquery";
+import {AsyncPipe, NgForOf, NgIf, TitleCasePipe, ViewportScroller} from "@angular/common";
+import {ShoppingCartService} from "../../services/shopping-cart.service";
+import {HotelRoomComponent} from "./hotel/room/hotel-room.component";
 
 
 @Component({
@@ -14,7 +15,8 @@ import $ from "jquery";
     AsyncPipe,
     NgForOf,
     NgIf,
-    TitleCasePipe
+    TitleCasePipe,
+    HotelRoomComponent
   ],
   templateUrl: './travel-offer-details.component.html',
   styleUrl: './travel-offer-details.component.css'
@@ -26,34 +28,35 @@ export class TravelOfferDetailsComponent implements OnInit {
 
   constructor(
     private searchRequest: SearchRequestService,
+    private cartService: ShoppingCartService,
     private httpService: HttpService,
     private router: Router,
     private route: ActivatedRoute,
+    private viewportScroller: ViewportScroller
   ) {
   }
 
   ngOnInit(): void {
     this.travelOfferDetails = this.getTravelOfferDetails().pipe(shareReplay(1));
+
+    console.log(this.cartService.getCart());
   }
 
   getTravelOfferDetails(): Observable<any> {
     return this.route.params.pipe(
       switchMap(params => {
         const offerId = params['id'];
-        return this.httpService.get(`http://localhost:8765/getOffer/${offerId}`);
+        return this.httpService.get(`http://localhost:8765/offers/${offerId}`);
       })
     );
   }
 
-  getLastReviews(reviews: any): Array<any> {
+  getLastReviews(reviews: any): Array<any> { // todo extract reviews to the new container
     return reviews.slice(0, this.displayedReviews);
   }
 
-  getMoreReviews() {
+  getMoreReviews(): void {
     this.displayedReviews += 5;
-
-    console.log(this.displayedReviews)
-
   }
 
   getHotelRating(reviews: Array<any>): number {
@@ -65,6 +68,17 @@ export class TravelOfferDetailsComponent implements OnInit {
     return totalRating / reviews.length;
   }
 
+  getTopReviews(reviews: any[]): any[] {
+    // Сортуємо відгуки за рейтингом і беремо топ 3
+    return reviews.sort((a, b) => b.rating - a.rating).slice(0, 3);
+  }
 
+  scrollToReviews(): void {
+    this.viewportScroller.scrollToAnchor('reviews'); // Переміщення до елементу з id="reviews"
+  }
+
+  cutReviewText(reviewText: string): string {
+    return reviewText.length > 130 ? reviewText.slice(0, 130) + '...' : reviewText;
+  }
 
 }

@@ -6,14 +6,10 @@ import {SearchRequestService} from "../../services/search-request.service";
 import {Router} from "@angular/router";
 
 export interface GetOffersRequest {
-  // private VendorType vendorType;
-  // private int locationId;
-  // private LocalDate from;
-  // private LocalDate to;
   vendorType: number;
-  locationId: number;
-  from: Date;
-  to: Date;
+  location: number;
+  dateFrom: Date;
+  dateTo: Date;
 }
 
 @Component({
@@ -33,18 +29,26 @@ export interface GetOffersRequest {
 export class TripFlowComponent implements OnInit {
 
   hotelSearchForm: FormGroup;
-  locations: string[] = ['Location 1', 'Location 2', '2'];
+  locations: string[] = ['Location 1', 'Location 2', '2']; // todo add locations to the database, create new container for them
   selectedForm: string = 'hotel';
 
-  constructor(private formBuilder: FormBuilder, private searchRequest: SearchRequestService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private searchRequest: SearchRequestService,
+    private router: Router
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.initSearchForm();
+  }
+
+  initSearchForm(): void {
     this.hotelSearchForm = this.formBuilder.group({
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required],
       location: ['', Validators.required]
     });
-  }
-
-  ngOnInit(): void {
   }
 
   toggleForm(formType: string): void {
@@ -59,23 +63,12 @@ export class TripFlowComponent implements OnInit {
     return this.selectedForm === 'activity';
   }
 
-  // get f() { return this.hotelSearchForm.controls; }
-
   onSubmit() {
-    // Ваш код для виконання пошуку готелів за вказаними параметрами
     if (this.hotelSearchForm.invalid) {
       return;
     }
 
-    const rq = {
-      vendorType: 1,
-      locationId: this.hotelSearchForm.controls['location'].value,
-      from: this.hotelSearchForm.controls['dateFrom'].value,
-      to: this.hotelSearchForm.controls['dateTo'].value
-    } as GetOffersRequest;
-
-
-    this.searchRequest.setScope(rq);
+    this.searchRequest.setScope({...this.hotelSearchForm.value, vendorType: 1});
     this.router.navigate(['/travelOffers'])
     console.log('Search parameters:', this.hotelSearchForm.value);
   }

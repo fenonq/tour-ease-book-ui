@@ -5,7 +5,8 @@ import {Injectable} from '@angular/core';
 })
 export class AuthorizationService {
 
-  constructor() {
+  constructor(
+  ) {
   }
 
   getJwtToken(): string | null {

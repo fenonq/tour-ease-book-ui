@@ -110,8 +110,8 @@
 }
 
 .mark-block {
-  width: 4%;
-  height: 2.5vw;
+  width: 4.5%;
+  height: 2.8vw;
   margin-top: 0.5vw;
   margin-left: 0.5vw;
 
@@ -122,5 +122,41 @@
   color: white;
 
   background-color: #7a948c;
-
 }
+
+.card {
+  box-shadow: 1px 0 10px 7px #ececec;
+  border-radius: 20px;
+}
+
+.offer-details-image {
+  border-radius: 20px;
+}
+
+.card-text {
+  text-align: justify;
+}
+
+.review-card {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.review-card1 {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: 1px 0 10px 7px #ececec;
+}
+
+.all-reviews {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.all-reviews:hover {
+  text-decoration: none; /* Чи змініть як бажаєте при наведенні */
+}
+
+

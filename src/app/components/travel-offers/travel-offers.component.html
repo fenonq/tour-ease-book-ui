@@ -1,7 +1,32 @@
 <div class="main-container">
-  <div class="d-flex justify-content-center align-items-center flex-column gap-1vh py-5">
-    <div class="mb-1 w-50" *ngFor="let offer of (travelOffers | async)">
-      <app-hotel *ngIf="offer.vendorType === 'HOTEL'" [hotel]="offer"></app-hotel>
+  <div class="d-flex justify-content-center align-items-center flex-column gap-3vh py-5">
+    <div class="travel-offers-filter-block card gap-1vh">
+      <span class="fs-h2-vw fw-bold">Готелі</span>
+      <div>
+        <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="block-info search-form">
+          <div class="form-group fs-3vw">
+            <label for="location">Локація:</label>
+            <select class="form-select" id="location" formControlName="location">
+              <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
+            </select>
+          </div>
+          <div class="form-group fs-3vw">
+            <label for="dateFrom">Дата з:</label>
+            <input formControlName="dateFrom" type="date" id="dateFrom" class="form-control">
+          </div>
+          <div class="form-group fs-3vw">
+            <label for="dateTo">Дата по:</label>
+            <input formControlName="dateTo" type="date" id="dateTo" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary offer-button text-black" [disabled]="!searchForm.valid"><span
+            class="fs-3vw">Оновити пошук</span></button>
+        </form>
+      </div>
+    </div>
+    <div class="d-flex flex-column gap-1vh">
+      <div class="mb-1 w-50 m-auto" *ngFor="let offer of (travelOffers | async)">
+        <app-hotel *ngIf="offer.vendorType === 'HOTEL'" [hotel]="offer"></app-hotel>
+      </div>
     </div>
   </div>
 </div>

@@ -7,10 +7,15 @@
   <div class="header-container ms-5 me-5">
     <a class="text-decoration-none" href="/"><h1 class="h-25 poiret-one-regular text-black fs-h1-vw">Tour Ease Book</h1></a>
     <div class="d-flex gap-5 me-5">
-      <a class="text-decoration-none fs-6vw header-navigation-link" href="/">Home</a>
-      <a *ngIf="!authorizationService.isLoggedIn()" class="text-decoration-none fs-6vw header-navigation-link" href="/registration">Sign Up</a>
-      <a *ngIf="!authorizationService.isLoggedIn()" class="text-decoration-none fs-6vw header-navigation-link" href="/login">Sign In</a>
-      <a *ngIf="authorizationService.isLoggedIn()" class="text-decoration-none fs-6vw header-navigation-link" href="/login" (click)="logout()">Log Out</a>
+      <a class="text-decoration-none fs-6vw header-navigation-link" href="/">Головна</a>
+      <a class="text-decoration-none fs-6vw header-navigation-link cart-link" href="/cart">
+        Корзина
+        <span *ngIf="cartService.getCart().length" class="cart-count-badge">{{ cartService.getCart().length }}</span>
+      </a>
+
+      <a *ngIf="!authorizationService.isLoggedIn()" class="text-decoration-none fs-6vw header-navigation-link" href="/registration">Реєстрація</a>
+      <a *ngIf="!authorizationService.isLoggedIn()" class="text-decoration-none fs-6vw header-navigation-link" href="/login">Вхід</a>
+      <a *ngIf="authorizationService.isLoggedIn()" class="text-decoration-none fs-6vw header-navigation-link" href="/login" (click)="logout()">Вихід</a>
     </div>
   </div>
 </header>

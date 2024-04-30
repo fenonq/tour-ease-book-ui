@@ -27,11 +27,11 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private httpService: HttpService,
     private authorizationService: AuthorizationService
   ) {
-    this.loginForm = this.fb.group({
+    this.loginForm = this.formBuilder.group({ // todo extract method
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(3)]]
     });
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     }
 
     const signInRq = {
-      username: this.loginForm.controls['username'].value,
+      username: this.loginForm.controls['username'].value, // todo
       password: this.loginForm.controls['password'].value
     } as SignInRequest;
 

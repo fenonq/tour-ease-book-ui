@@ -74,6 +74,14 @@ body {
   gap: 1vh;
 }
 
+.gap-2vh {
+  gap: 1.5vh;
+}
+
+.gap-3vh {
+  gap: 2vh;
+}
+
 .mb-07vh {
   margin-bottom: 0.7vh;
 }
@@ -94,6 +102,10 @@ body {
   width: 15%;
 }
 
+.w-35 {
+  width: 35%;
+}
+
 .w-45 {
   width: 45%;
 }
@@ -104,6 +116,10 @@ body {
 
 .p-2vw {
   padding: 0.5vw;
+}
+
+.p-3vw {
+  padding: 0.75vw;
 }
 
 .pb-1vw {

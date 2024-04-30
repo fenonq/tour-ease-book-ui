@@ -1,0 +1,20 @@
+.room-block-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+}
+
+.offer-button {
+  background-color: white;
+  border-color: black;
+  /*width: 40%;*/
+
+  padding: 0.1vw 0.9vw;
+}
+
+.offer-button:hover {
+  background-color: #dfe2e7;
+  border-color: black;
+}

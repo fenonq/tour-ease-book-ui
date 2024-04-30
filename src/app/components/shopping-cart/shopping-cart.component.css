@@ -1,0 +1,76 @@
+/* shopping-cart.component.css */
+.container {
+  padding: 20px;
+}
+
+.card {
+  margin-bottom: 20px;
+  border-radius: 40px;
+}
+
+/*.card-body {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*}*/
+
+.img-fluid {
+  max-height: 10vw;
+  object-fit: cover;
+}
+
+.cart-item-image {
+  border-radius: 15px;
+}
+
+.cart-item-room {
+  border: 1px solid grey;
+  border-radius: 10px;
+  box-shadow: 1px 0 10px 7px #ececec;
+
+  margin: 1vw;
+  padding: 1vw;
+}
+
+.cart-error-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Займає весь висоту екрана */
+  text-align: center;
+}
+
+.cart-image-fs {
+  font-size: 8vw;
+}
+
+.delete-button {
+  padding: 0.2vw 0.9vw;
+  margin-top: 0.6vw;
+  width: 60%;
+}
+
+.order-button {
+  padding: 0.2vw 0.9vw;
+  margin-top: 0.6vw;
+  width: 18%;
+
+  background-color: white;
+  border-color: black;
+}
+
+.order-button:hover {
+  background-color: #dfe2e7;
+  border-color: black;
+}
+
+.error-button {
+  background-color: white;
+  border-color: black;
+}
+
+.error-button:hover {
+  background-color: #dfe2e7;
+  border-color: black;
+}
