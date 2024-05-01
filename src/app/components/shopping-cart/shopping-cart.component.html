@@ -1,14 +1,14 @@
 <div *ngIf="!uniqueCartItems.length" class="cart-error-message">
   <i class="fas fa-shopping-cart cart-image-fs align-items-center"></i>
-  <span class="fs-h1-vw">Корзина порожня</span>
+  <span class="fs-h1-vw">Кошик порожній</span>
   <a href="/flow">
     <button type="submit" class="btn btn-primary submit-button error-button text-black"><p class="fs-3vw m-0">Розпочати!</p></button>
   </a>
 </div>
 <div *ngIf="uniqueCartItems.length" class="container">
   <div class="mt-4 mt-5">
-    <span class="fs-h1-vw">Ваша корзина</span>
-    <div *ngFor="let uniqueCartItem of uniqueCartItems" class="card mb-4 shadow">
+    <span class="fs-h1-vw">Ваш кошик</span>
+    <div *ngFor="let uniqueCartItem of uniqueCartItems" class="card mb-4 shadow mt-2vw">
       <div *ngIf="(getHotelById(uniqueCartItem.offerId) | async) as offer" class="d-flex">
         <div class="m-auto">
           <img [src]="offer.mediaList[0]?.source" class="img-fluid cart-item-image" alt="Зображення готелю">
@@ -33,8 +33,8 @@
                     <li class="fs-3vw"><span class="fw-bold">Дата заїзду: </span>{{cartItem.dateFrom | date:'mediumDate'}}</li>
                     <li class="fs-3vw"><span class="fw-bold">Дата виїзду: </span>{{cartItem.dateTo | date:'mediumDate'}}</li>
                     <li class="fs-3vw"><span class="fw-bold">Кількість ночей: </span>{{ getNumberOfNights(cartItem) }}</li>
-                    <li class="fs-3vw"><span class="fw-bold">Ціна за ніч: </span>₴{{ room.price }}</li>
-                    <li class="fs-3vw"><span class="fw-bold">Загальна сума: </span>₴{{ room.price * getNumberOfNights(cartItem) }}</li>
+                    <li class="fs-3vw"><span class="fw-bold">Ціна за ніч: </span>{{ room.price }}₴</li>
+                    <li class="fs-3vw"><span class="fw-bold">Загальна сума: </span>{{ room.price * getNumberOfNights(cartItem) }}₴</li>
                   </ul>
                   <button class="btn btn-outline-danger delete-button btn-sm" (click)="removeItem(offer.id, room.roomId)"><span class="fs-3vw">Видалити</span></button>
                 </div>
@@ -45,7 +45,13 @@
       </div>
     </div>
     <div class="d-flex justify-content-end">
+      <span class="fs-4vw">До сплати: {{ getTotalPrice() | async }}₴</span>
+    </div>
+    <div class="d-flex justify-content-end">
       <button class="btn btn-success btn-lg order-button text-black" (click)="order()"><span class="fs-4vw bold">Оформити замовлення</span></button>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-success btn-lg order-button text-black" (click)="clear()"><span class="fs-4vw bold">Очистити кошик</span></button>
     </div>
   </div>
 </div>

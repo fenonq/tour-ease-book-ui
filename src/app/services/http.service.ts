@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable} from "rxjs";
 import {AuthorizationService} from "./authorization.service";
@@ -16,7 +16,12 @@ export class HttpService {
 
   // Метод для виконання GET-запиту
   get(url: string): Observable<any> {
-    return this.http.get(url)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authorizationService.getBearerToken()
+    });
+
+    return this.http.get(url, {headers})
       .pipe(
         catchError(error => {
           throw 'Помилка при виконанні GET-запиту: ' + error;
@@ -26,14 +31,14 @@ export class HttpService {
 
   // Метод для виконання POST-запиту
   post(url: string, data: any): Observable<any> {
-    const headers = new HttpHeaders();
+    const isAuthRoute = url.includes('signIn') || url.includes('signUp');
 
-    if (!url.includes('signIn') || !url.includes('signUp')) {
-      const bearerToken = this.authorizationService.getBearerToken();
-      headers.set('Authorization', bearerToken);
-    }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': isAuthRoute ? '' : this.authorizationService.getBearerToken()
+    });
 
-    return this.http.post(url, data, { headers })
+    return this.http.post(url, data, {headers})
       .pipe(
         catchError(error => {
           throw 'Помилка при виконанні POST-запиту: ' + error;

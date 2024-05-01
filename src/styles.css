@@ -82,12 +82,29 @@ body {
   gap: 2vh;
 }
 
-.mb-07vh {
-  margin-bottom: 0.7vh;
+.mb-07vw {
+  margin-bottom: 0.7vw;
 }
 
-.mb-1vh {
-  margin-bottom: 1vh;
+.mb-1vw {
+  margin-bottom: 1vw;
+}
+
+.mb-2vw {
+  margin-bottom: 2vw;
+}
+
+.ml-2vw {
+  margin-left: 0.5vw;
+}
+
+.ml-4vw {
+  margin-left: 1vw;
+}
+
+.mx-4vw {
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
 .mt-2vw {

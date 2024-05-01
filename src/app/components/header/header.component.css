@@ -34,11 +34,11 @@
 .cart-count-badge {
   position: absolute;
   top: -35%;
-  right: -30%;
+  right: -40%;
   background-color: #ff0000;
   color: white;
   border-radius: 50%;
-  width: 35%;
+  width: 44%;
   padding: 0.1vw 0.4vw;
   font-size: 0.8em; /* Менший шрифт для числа */
   box-shadow: 0 2px 5px #575151; /* Додає глибину та видимість */

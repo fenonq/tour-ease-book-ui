@@ -1,6 +1,6 @@
 <div class="card-body room-block-body gap-1vh">
   <div class="d-flex flex-column gap-2vh">
-    <span class="fs-5vw fw-bold mb-1vh">{{ room.roomType }}</span>
+    <span class="fs-5vw fw-bold mb-1vw">{{ room.roomType }}</span>
     <span class="fs-3vw">₴{{ room.price }} за ніч</span>
     <span class="fs-3vw">Максимальна кількість людей: {{ room.capacity }}</span>
     <div *ngIf="room.beds && room.beds.length > 0">
@@ -14,9 +14,10 @@
   </div>
   <div class="d-flex justify-content-end">
     <button *ngIf="!isAdded" class="btn btn-primary offer-button text-black" (click)="addToCart(offerId, room.roomId)">
-      <span class="fs-3vw">В кошик</span>
+      <span class="fs-3vw">У кошик</span>
     </button>
-    <div *ngIf="isAdded" class="icon-check d-flex justify-content-end">
+    <div *ngIf="isAdded" class="icon-check d-flex justify-content-end align-items-center gap-1vh">
+      <span class="fs-3vw">У кошику</span>
       <i class="fas fa-check fs-6vw text-success"></i>
     </div>
   </div>

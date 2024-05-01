@@ -29,6 +29,7 @@ export class HotelRoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isAdded = !!this.cartService.getCart().find(item => item.offerId === this.offerId && item.roomId === this.room.roomId);
   }
 
   addToCart(hotelId: string, roomId: string): void {

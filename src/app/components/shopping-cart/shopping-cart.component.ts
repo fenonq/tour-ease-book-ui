@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ShoppingCartService} from "../../services/shopping-cart.service";
 import {HttpService} from "../../services/http.service";
-import {map, Observable, shareReplay} from "rxjs";
+import {filter, find, from, map, mergeMap, Observable, of, reduce, shareReplay, take} from "rxjs";
 import {AsyncPipe, DatePipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {HotelComponent} from "../travel-offers/hotel/hotel.component";
 import {CartItem} from "../../models/core";
@@ -80,12 +80,47 @@ export class ShoppingCartComponent implements OnInit {
     return Math.ceil(daysDifference);
   }
 
+  getTotalPrice(): Observable<number> {
+    const cartItems = this.cartService.getCart();
+    if (cartItems.length === 0) {
+      return of(0);
+    }
+
+    return from(cartItems).pipe(
+      mergeMap(cartItem =>
+        this.cartOffersDetails.pipe(
+          // @ts-ignore
+          map(hotels => hotels.find(hotel => hotel.id === cartItem.offerId)),
+          map(hotel => {
+            // @ts-ignore
+            const room = hotel ? hotel.rooms.find(r => r.roomId === cartItem.roomId) : null;
+            const nights = this.getNumberOfNights(cartItem);
+            return room ? room.price * nights : 0;
+          })
+        )
+      ),
+      reduce((acc, curr) => acc + curr, 0)
+    );
+  }
+
   removeItem(offerId: string, roomId?: string) {
     this.cartService.removeItem(offerId, roomId)
     this.getUniqueCartItems();
   }
 
   order(): void {
+
+    console.log(321)
+    this.httpService.post('http://localhost:8765/createOrder', {
+      cart: {
+        cartItems: this.cartService.getCart()
+      }
+    }).subscribe();
+    // this.cartService.clearCart();
+    // this.getUniqueCartItems();
+  }
+
+  clear(): void {
     this.cartService.clearCart();
     this.getUniqueCartItems();
   }

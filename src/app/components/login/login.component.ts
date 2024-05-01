@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 
     this.httpService.post('http://localhost:8765/signIn', signInRq).subscribe({
       next: (response) => {
-        this.authorizationService.setJwtToken(response);
+        this.authorizationService.setJwtToken(response.accessToken);
         this.router.navigate(['']);
       },
       error: (error) => {
