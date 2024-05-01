@@ -1,22 +1,22 @@
-<!--<div *ngIf="!(userOrders | async).length" class="cart-error-message">-->
-<!--  <i class="fas fa-shopping-cart cart-image-fs align-items-center"></i>-->
-<!--  <span class="fs-h1-vw">У вас немає замовлень</span>-->
-<!--  <a href="/flow">-->
-<!--    <button type="submit" class="btn btn-primary submit-button error-button text-black"><p class="fs-3vw m-0">Розпочати!</p></button>-->
-<!--  </a>-->
-<!--</div>-->
-<div class="container">
+<div *ngIf="!((userOrders | async)?.length)" class="cart-error-message">
+  <i class="fas fa-shopping-cart cart-image-fs align-items-center"></i>
+  <span class="fs-h1-vw">У вас немає замовлень</span>
+  <a href="/flow">
+    <button type="submit" class="btn btn-primary submit-button error-button text-black"><p class="fs-3vw m-0">Розпочати!</p></button>
+  </a>
+</div>
+<div *ngIf="(userOrders | async)?.length" class="container">
   <div class="d-flex flex-column gap-2vh mt-5 m-auto">
     <span class="fs-h1-vw">Ваші замовлення</span>
     <div *ngFor="let order of (userOrders | async)" class="card shadow mb-2vw">
-      <div class="d-flex justify-content-between align-items-center mx-4vw mt-3vw">
+      <div class="d-flex justify-content-between align-items-center mx-4vw mt-3vw mb-1vw">
         <div class="d-flex gap-1vh align-items-center test">
           <span class="fs-4vw fw-bold">№ {{ order.id }}</span>
           <span class="fs-3vw">від {{ order.creationDateTime | date:'medium' }}</span>
         </div>
         <div class="d-flex flex-column align-items-center">
           <span class="fs-4vw">Сплачено</span>
-          <span class="fs-5vw fw-bold">{{order.totalPrice}}₴</span>
+          <span class="fs-6vw fw-bold">{{order.totalPrice}}₴</span>
         </div>
       </div>
       <div *ngFor="let orderedItem of order.orderedItems" class="card shadow">
@@ -34,6 +34,10 @@
                   <div class="d-flex gap-1vh align-items-center pb-1vw">
                     <i class="fas fa-location-dot fs-7 align-items-center"></i>
                     <span class="fs-2vw">{{ orderedItem.offer.location.city }}, {{ orderedItem.offer.location.country }}</span>
+                  </div>
+                  <span class="fs-2vw">{{ orderedItem.offer.address }}</span>
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-success btn-lg order-button text-black" (click)="openDetails(orderedItem.offer.id)"><span class="fs-4vw bold">Детальніше</span></button>
                   </div>
                 </div>
               </div>

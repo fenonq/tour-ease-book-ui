@@ -17,4 +17,8 @@ export class SearchRequestService {
   public setScope(scope: any): void {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(scope));
   }
+
+  public removeScope(): void {
+    localStorage.removeItem(this.STORAGE_KEY);
+  }
 }

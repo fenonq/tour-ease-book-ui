@@ -1,11 +1,11 @@
-<div *ngIf="!uniqueCartItems.length" class="cart-error-message">
+<div *ngIf="!uniqueCartItems?.length" class="cart-error-message">
   <i class="fas fa-shopping-cart cart-image-fs align-items-center"></i>
   <span class="fs-h1-vw">Кошик порожній</span>
   <a href="/flow">
     <button type="submit" class="btn btn-primary submit-button error-button text-black"><p class="fs-3vw m-0">Розпочати!</p></button>
   </a>
 </div>
-<div *ngIf="uniqueCartItems.length" class="container">
+<div *ngIf="uniqueCartItems?.length" class="container">
   <div class="mt-4 mt-5">
     <span class="fs-h1-vw">Ваш кошик</span>
     <div *ngFor="let uniqueCartItem of uniqueCartItems" class="card mb-4 shadow mt-2vw">

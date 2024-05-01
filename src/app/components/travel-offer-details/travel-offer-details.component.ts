@@ -27,10 +27,7 @@ export class TravelOfferDetailsComponent implements OnInit {
   displayedReviews = 3;
 
   constructor(
-    private searchRequest: SearchRequestService,
-    private cartService: ShoppingCartService,
     private httpService: HttpService,
-    private router: Router,
     private route: ActivatedRoute,
     private viewportScroller: ViewportScroller
   ) {
@@ -38,8 +35,6 @@ export class TravelOfferDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.travelOfferDetails = this.getTravelOfferDetails().pipe(shareReplay(1));
-
-    console.log(this.cartService.getCart());
   }
 
   getTravelOfferDetails(): Observable<any> {

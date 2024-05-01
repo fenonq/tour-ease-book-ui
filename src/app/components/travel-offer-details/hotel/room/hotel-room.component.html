@@ -12,7 +12,7 @@
       </ul>
     </div>
   </div>
-  <div class="d-flex justify-content-end">
+  <div *ngIf="searchRequestService.getScope()" class="d-flex justify-content-end">
     <button *ngIf="!isAdded" class="btn btn-primary offer-button text-black" (click)="addToCart(offerId, room.roomId)">
       <span class="fs-3vw">У кошик</span>
     </button>

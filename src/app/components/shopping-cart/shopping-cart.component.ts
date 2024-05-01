@@ -5,6 +5,7 @@ import {filter, find, from, map, mergeMap, Observable, of, reduce, shareReplay, 
 import {AsyncPipe, DatePipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {HotelComponent} from "../travel-offers/hotel/hotel.component";
 import {CartItem} from "../../models/core";
+import {SearchRequestService} from "../../services/search-request.service";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -26,6 +27,7 @@ export class ShoppingCartComponent implements OnInit {
   uniqueCartItems: Array<CartItem>;
 
   constructor(
+    public searchRequestService: SearchRequestService,
     public cartService: ShoppingCartService,
     private httpService: HttpService,
   ) {
@@ -109,8 +111,6 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   order(): void {
-
-    console.log(321)
     this.httpService.post('http://localhost:8765/createOrder', {
       cart: {
         cartItems: this.cartService.getCart()
@@ -118,6 +118,7 @@ export class ShoppingCartComponent implements OnInit {
     }).subscribe();
     // this.cartService.clearCart();
     // this.getUniqueCartItems();
+    this.searchRequestService.removeScope();
   }
 
   clear(): void {

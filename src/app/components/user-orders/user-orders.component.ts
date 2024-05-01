@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {map, Observable, shareReplay} from "rxjs";
 import {CartItem} from "../../models/core";
 import {ShoppingCartService} from "../../services/shopping-cart.service";
 import {HttpService} from "../../services/http.service";
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
+import {TravelOfferDetailsComponent} from "../travel-offer-details/travel-offer-details.component";
+import $ from "jquery";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-orders',
@@ -12,20 +15,18 @@ import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
     NgIf,
     NgForOf,
     AsyncPipe,
-    DatePipe
+    DatePipe,
+    TravelOfferDetailsComponent
   ],
   templateUrl: './user-orders.component.html',
   styleUrl: './user-orders.component.css'
 })
 export class UserOrdersComponent implements OnInit {
 
-  cartOffersDetails: Observable<any>;
-  uniqueCartItems: Array<CartItem>;
   userOrders: Observable<any>;
-  test: Observable<any>;
-  orderedItemsDates: Array<any>;
 
   constructor(
+    private router: Router,
     public cartService: ShoppingCartService,
     private httpService: HttpService,
   ) {
@@ -33,16 +34,10 @@ export class UserOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.userOrders = this.getUserOrders().pipe(shareReplay(1));
-    this.test = this.mergeSameHotels();
-
   }
 
   getUserOrders(): Observable<any> {
     return this.httpService.get(`http://localhost:8765/userOrders`);
-  }
-
-  getCartItemByHotelAndRoomId(hotelId: string, roomId: string): CartItem {
-    return this.cartService.getCart().find(offer => offer.roomId === roomId && offer.offerId === hotelId) as CartItem;
   }
 
   getNumberOfNights(dateFrom: Date, dateTo: Date): number {
@@ -51,39 +46,8 @@ export class UserOrdersComponent implements OnInit {
     return Math.ceil(daysDifference);
   }
 
-  mergeSameHotels(): Observable<any> {
-    return this.userOrders.pipe(
-      // Плоский перелік усіх orderItems
-      // @ts-ignore
-      map(userOrders => userOrders.flatMap(userOrder => userOrder.orderedItems)),
-      // Групування orderItems по hotelId
-      map(orderItems => {
-        const hotelsMap = new Map<string, any>();
-
-        console.log(orderItems)
-        // @ts-ignore
-        orderItems.forEach(item => {
-          let hotel = hotelsMap.get(item.offer.id);
-          if (!hotel) {
-            hotel = { ...item.offer, rooms: [] };
-            hotelsMap.set(item.offer.id, hotel);
-          }
-          // @ts-ignore
-          item.offer.rooms.forEach(room => {
-            // @ts-ignore
-            if (!hotel.rooms.some(hotelRoom => hotelRoom.roomId === room.roomId)) {
-              room = { ...room, dateFrom: item.dateFrom, dateTo: item.dateTo}
-              hotel.rooms.push(room);
-            }
-          });
-        });
-
-        console.log(hotelsMap.values())
-
-        return Array.from(hotelsMap.values());
-      })
-    );
+  openDetails(offerId: string): void {
+    this.router.navigate(['/travelOffers', offerId]);
   }
-
 
 }

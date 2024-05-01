@@ -23,7 +23,7 @@ export class HotelRoomComponent implements OnInit {
   isAdded: boolean = false;
 
   constructor(
-    private searchRequest: SearchRequestService,
+    public searchRequestService: SearchRequestService,
     private cartService: ShoppingCartService,
   ) {
   }
@@ -33,7 +33,7 @@ export class HotelRoomComponent implements OnInit {
   }
 
   addToCart(hotelId: string, roomId: string): void {
-    const searchRq = this.searchRequest.getScope();
+    const searchRq = this.searchRequestService.getScope();
     console.log(searchRq);
     const item =
       {
