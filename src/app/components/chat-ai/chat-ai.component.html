@@ -1,0 +1,25 @@
+<div class="chat-container">
+  <button *ngIf="!showChat" (click)="toggleChat()" class="chat-toggle-btn"><i class="fas fa-headset fs-h1-vw"></i>
+  </button>
+  <div *ngIf="showChat" class="chat-box">
+    <div class="chat-header">
+      <div class="d-flex gap-1vh">
+        <span class="fs-4vw fw-bold">Ші Асистент</span>
+        <div class="info-tooltip">
+          <i class="fas fa-info-circle"></i>
+          <span class="tooltiptext fs-3vw">Відповідати Вам буде штучний інтелект. Просто напишіть, що Вас цікавить, і Ви одразу отримаєте відповідь!</span>
+        </div>
+      </div>
+      <i class="fs-6vw fas fa-close close-button" (click)="toggleChat()"></i>
+    </div>
+    <div class="chat-body">
+      <div *ngFor="let message of messages" class="message" [ngClass]="{'owner': message.owner, 'not-owner': !message.owner}">
+        <span class="fs-3vw">{{ message.text }}</span>
+      </div>
+    </div>
+    <div class="d-flex">
+      <input [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Type a message..." class="chat-input">
+      <button class="btn btn-primary arrow-button" (click)="sendMessage()"><i class="fas fa-arrow-alt-circle-up"></i></button>
+    </div>
+  </div>
+</div>

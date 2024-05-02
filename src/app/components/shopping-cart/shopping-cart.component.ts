@@ -6,18 +6,20 @@ import {AsyncPipe, DatePipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common
 import {HotelComponent} from "../travel-offers/hotel/hotel.component";
 import {CartItem} from "../../models/core";
 import {SearchRequestService} from "../../services/search-request.service";
+import {ChatAiComponent} from "../chat-ai/chat-ai.component";
 
 @Component({
   selector: 'app-shopping-cart',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    HotelComponent,
-    NgForOf,
-    NgIf,
-    TitleCasePipe,
-    DatePipe
-  ],
+    imports: [
+        AsyncPipe,
+        HotelComponent,
+        NgForOf,
+        NgIf,
+        TitleCasePipe,
+        DatePipe,
+        ChatAiComponent
+    ],
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.css'
 })
