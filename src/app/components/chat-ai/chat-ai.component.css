@@ -54,12 +54,18 @@
   border-radius: 0 0 0 20px;
 }
 
+.input-block {
+  display: flex;
+  height: 2.3vw;
+}
+
 .chat-toggle-btn {
   background-color: #377ac9;
   color: white;
   border: none;
   padding: 1vw 1vw;
   cursor: pointer;
+  box-shadow: 0 4px 10px black;
 
   border-radius: 100px;
 }
@@ -75,14 +81,14 @@
   background-color: #f0f0f0;
 }
 
-.owner {
+.user-message {
   background-color: #d1ecf1;
   border-radius: 20px 20px 0 20px;
   text-align: right;
   align-self: flex-end;
 }
 
-.not-owner {
+.assistant-message {
   align-self: flex-start;
 }
 
@@ -122,4 +128,14 @@
 .info-tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 10px;
 }

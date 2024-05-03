@@ -27,17 +27,27 @@ export class UserOrdersComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public cartService: ShoppingCartService,
     private httpService: HttpService,
   ) {
   }
 
   ngOnInit(): void {
-    this.userOrders = this.getUserOrders().pipe(shareReplay(1));
+    this.userOrders = this.getUserOrders().pipe(
+      map(orders => this.sortOrders(orders)),
+      shareReplay(1)
+    );
   }
 
   getUserOrders(): Observable<any> {
     return this.httpService.get(`http://localhost:8765/userOrders`);
+  }
+
+  sortOrders(orders: Array<any>): Array<any> {
+    return orders.sort((a, b) => {
+      const dateA = new Date(a.creationDateTime);
+      const dateB = new Date(b.creationDateTime);
+      return dateB.getTime() - dateA.getTime();
+    });
   }
 
   getNumberOfNights(dateFrom: Date, dateTo: Date): number {

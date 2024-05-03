@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ShoppingCartService} from "../../services/shopping-cart.service";
 import {HttpService} from "../../services/http.service";
-import {filter, find, from, map, mergeMap, Observable, of, reduce, shareReplay, take} from "rxjs";
+import {from, map, mergeMap, Observable, of, reduce, shareReplay} from "rxjs";
 import {AsyncPipe, DatePipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {HotelComponent} from "../travel-offers/hotel/hotel.component";
 import {CartItem} from "../../models/core";
 import {SearchRequestService} from "../../services/search-request.service";
-import {ChatAiComponent} from "../chat-ai/chat-ai.component";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -17,8 +16,7 @@ import {ChatAiComponent} from "../chat-ai/chat-ai.component";
         NgForOf,
         NgIf,
         TitleCasePipe,
-        DatePipe,
-        ChatAiComponent
+        DatePipe
     ],
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.css'

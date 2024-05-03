@@ -47,7 +47,6 @@ export class TravelOffersComponent implements OnInit {
       location: ['', Validators.required]
     });
 
-    // Ініціалізація значень форми з поточними критеріями пошуку
     const currentCriteria = this.searchRequest.getScope();
     if (currentCriteria) {
       this.searchForm.patchValue({
@@ -64,7 +63,7 @@ export class TravelOffersComponent implements OnInit {
   }
 
   getTravelOffers(): Observable<any> {
-    return this.httpService.post('http://localhost:8765/offers', this.getTravelOffersRequest);
+    return this.httpService.get(`http://localhost:8765/offers?locationId=${this.getTravelOffersRequest.location}&dateFrom=${this.getTravelOffersRequest.dateFrom}&dateTo=${this.getTravelOffersRequest.dateTo}`);
   }
 
   onSubmit(): void {
