@@ -27,14 +27,14 @@
             </div>
             <div *ngFor="let room of (getRoomsByHotelId(offer.id) | async)" class="cart-item-room">
               <div *ngIf="getCartItemByHotelAndRoomId(offer.id, room.roomId) as cartItem" class="d-flex flex-column gap-1vh">
-                <span class="fs-5vw fw-bold">{{ room.roomType }}</span>
+                <span class="fs-5vw fw-bold">{{ room.roomType + ' × ' + cartItem.numberOfRooms}}</span>
                 <div>
                   <ul class="list-unstyled p-0 m-0">
                     <li class="fs-3vw"><span class="fw-bold">Дата заїзду: </span>{{cartItem.dateFrom | date:'mediumDate'}}</li>
                     <li class="fs-3vw"><span class="fw-bold">Дата виїзду: </span>{{cartItem.dateTo | date:'mediumDate'}}</li>
                     <li class="fs-3vw"><span class="fw-bold">Кількість ночей: </span>{{ getNumberOfNights(cartItem) }}</li>
                     <li class="fs-3vw"><span class="fw-bold">Ціна за ніч: </span>{{ room.price }}₴</li>
-                    <li class="fs-3vw"><span class="fw-bold">Загальна сума: </span>{{ room.price * getNumberOfNights(cartItem) }}₴</li>
+                    <li class="fs-3vw"><span class="fw-bold">Загальна сума: </span>{{ room.price * getNumberOfNights(cartItem) * cartItem.numberOfRooms }}₴</li>
                   </ul>
                   <button class="btn btn-outline-danger delete-button btn-sm" (click)="removeItem(offer.id, room.roomId)"><span class="fs-3vw">Видалити</span></button>
                 </div>

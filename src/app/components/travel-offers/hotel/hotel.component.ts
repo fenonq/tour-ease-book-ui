@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {Router} from "@angular/router";
-import {min} from "rxjs";
 
 @Component({
   selector: 'app-hotel',
@@ -37,33 +36,37 @@ export class HotelComponent implements OnInit {
     return Array.from({length: stars}, (_, index) => index);
   }
 
-  getHotelRating(reviews: Array<any>): number {
+  getHotelRating(reviews: Array<any>): string {
     if (reviews.length === 0) {
-      return 0;
+      return '0';
     }
     const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
 
-    return totalRating / reviews.length;
+    return (totalRating / reviews.length).toFixed(2);
   }
 
-  getHotelWordRating(rating: number): string {
-    if (rating >= 4.5) {
+  getHotelWordRating(rating: string): string {
+    const parsedRating= parseFloat(rating);
+    if (parsedRating >= 4.5) {
       return 'Відмінно';
     }
-    if (rating >= 4.0) {
+    if (parsedRating >= 4.0) {
       return 'Чудово';
     }
-    if (rating >= 3.5) {
+    if (parsedRating >= 3.5) {
       return 'Добре';
     }
-    if (rating >= 3.0) {
+    if (parsedRating >= 3.0) {
       return 'Задовільно';
     }
-    if (rating >= 2.0) {
+    if (parsedRating >= 2.0) {
       return 'Посередньо';
     }
+    if (parsedRating >= 1.0) {
+      return 'Погано';
+    }
 
-    return 'Погано';
+    return '';
   }
 
   getTravelOfferDetails(id: string) {

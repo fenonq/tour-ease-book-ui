@@ -97,7 +97,7 @@ export class ShoppingCartComponent implements OnInit {
             // @ts-ignore
             const room = hotel ? hotel.rooms.find(r => r.roomId === cartItem.roomId) : null;
             const nights = this.getNumberOfNights(cartItem);
-            return room ? room.price * nights : 0;
+            return room ? room.price * nights * cartItem.numberOfRooms : 0;
           })
         )
       ),
@@ -116,8 +116,6 @@ export class ShoppingCartComponent implements OnInit {
         cartItems: this.cartService.getCart()
       }
     }).subscribe();
-    // this.cartService.clearCart();
-    // this.getUniqueCartItems();
     this.searchRequestService.removeScope();
   }
 

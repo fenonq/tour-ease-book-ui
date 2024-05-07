@@ -18,3 +18,7 @@
   background-color: #dfe2e7;
   border-color: black;
 }
+
+.add-to-cart input {
+  font-size: 0.8vw;
+}

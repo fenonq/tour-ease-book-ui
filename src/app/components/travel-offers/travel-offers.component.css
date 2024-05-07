@@ -25,21 +25,20 @@
 }
 
 .travel-offers-filter-block {
-  width: 50%;
+  width: 60%;
   background-color: #f3f4f6;
-  /*background-color: #e8e8e8;*/
-  /*background-color: #c8d4d9;*/
   border-radius: 10px;
-  margin: auto; /* Центрування блоку */
-  padding: 20px; /* Внутрішні відступи для блоку */
-  display: flex; /* Включення flexbox */
-  flex-direction: column; /* Елементи стають один під одним */
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  /*box-shadow: 1px 0 10px 1px rgba(0, 0, 0, 0.1);*/
 }
 
 .block-info {
-  display: flex; /* Активуємо flexbox для внутрішнього блоку */
-  flex-wrap: wrap; /* Дозволяємо елементам обертатися на наступний рядок */
-  gap: 0.5vw; /* Відстань між елементами */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5vw;
 }
 
 .form-group {
@@ -65,6 +64,27 @@
 .offer-button:hover {
   background-color: #dfe2e7;
   border-color: black;
+}
+
+.filters {
+  min-width: 9.3vw;
+  display: flex;
+  gap: 1vw;
+  background-color: #f3f4f6;
+  border-radius: 10px;
+  /*box-shadow: 1px 0 10px 1px rgba(0, 0, 0, 0.1);*/
+  padding: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.all-reviews {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 

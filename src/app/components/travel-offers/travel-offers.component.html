@@ -1,5 +1,5 @@
 <div class="main-container">
-  <div class="d-flex justify-content-center align-items-center flex-column gap-3vh py-5">
+  <div class="d-flex justify-content-center align-items-center flex-column gap-3vh py-5 mt-3 w-100">
     <div class="travel-offers-filter-block card gap-1vh">
       <span class="fs-h2-vw fw-bold">Готелі</span>
       <div>
@@ -23,10 +23,60 @@
         </form>
       </div>
     </div>
-    <div class="d-flex flex-column gap-1vh">
-      <div class="mb-1 w-50 m-auto" *ngFor="let offer of (travelOffers | async)">
-        <app-hotel *ngIf="offer.vendorType === 'HOTEL'" [hotel]="offer"></app-hotel>
+    <div class="d-flex justify-content-center gap-2vh">
+      <div class="filters card" [formGroup]="filterForm">
+        <span class="fs-5vw fw-bold mb-07vw">Фільтр</span>
+        <div>
+          <div class="mb-07vw">
+            <span class="fw-bold fs-3vw">Зручності</span>
+            <div *ngFor="let amenity of isExpanded ? (amenities | async) : cutAmenities((amenities | async) || [])" class="fs-3vw">
+              <label class="fs-3vw">
+                <input type="checkbox" [formControlName]="amenity">
+                {{ amenity }}
+              </label>
+            </div>
+            <span class="all-reviews fs-3vw" (click)="toggleAmenities()">{{ isExpanded ? 'Згорнути' : 'Розгорнути' }}</span>
+          </div>
+
+          <span class="fw-bold fs-3vw">Кількість зірок:</span>
+          <div *ngFor="let star of [5, 4, 3, 2, 1]; let i = index">
+            <label class="d-flex gap-1vh">
+              <input type="checkbox" [formControlName]="'star' + (5 - i)">
+              <div>
+                <i *ngFor="let _ of [].constructor(5 - i)" class="fas fa-star fs-3vw"> </i>
+              </div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+      <div class="d-flex flex-column gap-1vh w-50 ">
+        <div class="mb-1 w-100" *ngFor="let offer of (filteredOffers | async)">
+          <app-hotel *ngIf="offer.vendorType === 'HOTEL'" [hotel]="offer"></app-hotel>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<!--<div class="d-flex gap-1vh w-75 m-auto">-->
+<!--  <div class="filters mx-auto" [formGroup]="filterForm">-->
+<!--    <div *ngFor="let amenity of (amenities | async)">-->
+<!--      <label>-->
+<!--        <input type="checkbox" [formControlName]="amenity">-->
+<!--        {{ amenity }}-->
+<!--      </label>-->
+<!--    </div>-->
+<!--    <div class="form-group fs-3vw">-->
+<!--      <label for="maxCapacity">Максимальна кількість людей:</label>-->
+<!--      <input formControlName="maxCapacity" type="number" id="maxCapacity" class="form-control"-->
+<!--             placeholder="Введіть число">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="d-flex flex-column gap-1vh w-50 m-auto">-->
+<!--    <div class="mb-1" *ngFor="let offer of (filteredOffers | async)">-->
+<!--      <app-hotel *ngIf="offer.vendorType === 'HOTEL'" [hotel]="offer"></app-hotel>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--</div>-->

@@ -3,6 +3,7 @@
     <span class="fs-5vw fw-bold mb-1vw">{{ room.roomType }}</span>
     <span class="fs-3vw">₴{{ room.price }} за ніч</span>
     <span class="fs-3vw">Максимальна кількість людей: {{ room.capacity }}</span>
+    <span class="fs-3vw">Кількість доступних кімнат: {{ room.numberOfAvailableRooms }}</span>
     <div *ngIf="room.beds && room.beds.length > 0">
       <span class="fs-4vw fw-bold">Ліжка в кімнаті:</span>
       <ul class="list-unstyled">
@@ -13,12 +14,17 @@
     </div>
   </div>
   <div *ngIf="searchRequestService.getScope()" class="d-flex justify-content-end">
-    <button *ngIf="!isAdded" class="btn btn-primary offer-button text-black" (click)="addToCart(offerId, room.roomId)">
-      <span class="fs-3vw">У кошик</span>
-    </button>
+    <div *ngIf="!isAdded" class="add-to-cart">
+      <input type="number" class="form-control" [(ngModel)]="numberOfRooms" min="1" [max]="room.numberOfAvailableRooms" value="1">
+      <button class="btn btn-primary offer-button text-black" (click)="addToCart(offerId, room.roomId, numberOfRooms)"
+              [disabled]="numberOfRooms < 1 || numberOfRooms > this.room.numberOfAvailableRooms">
+        <span class="fs-3vw">У кошик</span>
+      </button>
+    </div>
     <div *ngIf="isAdded" class="icon-check d-flex justify-content-end align-items-center gap-1vh">
       <span class="fs-3vw">У кошику</span>
       <i class="fas fa-check fs-6vw text-success"></i>
     </div>
   </div>
+
 </div>

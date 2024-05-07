@@ -5,11 +5,11 @@
 
 .card-img-top {
   width: 100%;
-  object-fit: cover; /* Забезпечує, що зображення буде покривати весь доступний простір, не втрачаючи пропорцій */
+  object-fit: cover;
 }
 
 .list-group-item {
-  background-color: #f8f9fa; /* Світлий фон для елементів списку */
+  background-color: #f8f9fa;
 }
 
 .badge {
@@ -139,14 +139,12 @@
 
 .review-card {
   padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-.review-card1 {
-  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 15px;
   box-shadow: 1px 0 10px 7px #ececec;
+  gap: 1vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .all-reviews {
@@ -156,7 +154,30 @@
 }
 
 .all-reviews:hover {
-  text-decoration: none; /* Чи змініть як бажаєте при наведенні */
+  text-decoration: none;
 }
 
+.delete-button {
+  padding: 0.1vw 0.9vw;
+  margin-top: 0.6vw;
 
+  border-radius: 6px;
+}
+
+.close-icon {
+  cursor: pointer;
+}
+
+.rating {
+  color: #d4d4d4;
+  cursor: pointer;
+  width: 10%;
+}
+
+.rating .checked {
+  color: #ffca08;
+}
+
+.review-form input {
+  font-size: 0.8vw;
+}

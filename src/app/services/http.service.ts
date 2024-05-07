@@ -48,7 +48,12 @@ export class HttpService {
 
   // Метод для виконання PUT-запиту
   put(url: string, data: any): Observable<any> {
-    return this.http.put(url, data)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.authorizationService.getBearerToken()
+    });
+
+    return this.http.put(url, data, { headers })
       .pipe(
         catchError(error => {
           throw 'Помилка при виконанні PUT-запиту: ' + error;
