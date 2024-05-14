@@ -20,7 +20,6 @@
 }
 
 .header-navigation-link {
-  /*color: #6d7072;*/
   color: black;
 }
 
@@ -40,6 +39,6 @@
   border-radius: 50%;
   width: 44%;
   padding: 0.1vw 0.4vw;
-  font-size: 0.8em; /* Менший шрифт для числа */
-  box-shadow: 0 2px 5px #575151; /* Додає глибину та видимість */
+  font-size: 0.8em;
+  box-shadow: 0 2px 5px #575151;
 }

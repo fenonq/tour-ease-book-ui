@@ -8,63 +8,71 @@
 <div *ngIf="(userOrders | async)?.length" class="container">
   <div class="d-flex flex-column gap-2vh mt-5 m-auto">
     <span class="fs-h1-vw">Ваші замовлення</span>
-    <div *ngFor="let order of (userOrders | async)" class="card shadow mb-2vw">
+    <div *ngFor="let order of (userOrders | async)" class="card shadow mb-2vw gap-1vh">
       <div class="d-flex justify-content-between align-items-center mx-4vw mt-3vw mb-1vw">
-        <div class="d-flex gap-1vh align-items-center test">
-          <span class="fs-4vw fw-bold">№ {{ order.id }}</span>
-          <span class="fs-3vw">від {{ order.creationDateTime | date:'medium' }}</span>
+        <div class="d-flex flex-column gap-1vh">
+          <span class="fs-h2-vw fw-bold">{{ getOrderStatus(order.status) }}</span>
+          <div class="d-flex gap-1vh align-items-center test">
+            <span class="fs-4vw fw-bold">№ {{ order.id }}</span>
+            <span class="fs-3vw">від {{ order.creationDateTime | date:'medium' }}</span>
+          </div>
         </div>
         <div class="d-flex flex-column align-items-center">
           <span class="fs-4vw">Сплачено</span>
           <span class="fs-6vw fw-bold">{{order.totalPrice}}₴</span>
         </div>
       </div>
-      <div *ngFor="let orderedItem of order.orderedItems" class="card shadow">
-        <div class="d-flex gap-2vh">
-          <div class="m-auto">
-            <img [src]="orderedItem.offer.mediaList[0]?.source" class="img-fluid cart-item-image"
-                 alt="Зображення готелю">
-          </div>
-          <div class="col-md-8">
-            <div class="d-flex justify-content-between">
-              <div class="d-flex flex-column gap-2vh w-35">
-                <div class="d-flex flex-column">
-                  <span class="fs-h2-vw fw-bold">Готель</span>
-                  <span class="fs-4vw fw-bold">{{ orderedItem.offer.name }}</span>
-                  <div class="d-flex gap-1vh align-items-center pb-1vw">
-                    <i class="fas fa-location-dot fs-7 align-items-center"></i>
-                    <span class="fs-2vw">{{ orderedItem.offer.location.city }}, {{ orderedItem.offer.location.country }}</span>
-                  </div>
-                  <span class="fs-2vw">{{ orderedItem.offer.address }}</span>
-                  <div class="d-flex justify-content-end">
-                    <button class="btn btn-success btn-lg order-button text-black" (click)="openDetails(orderedItem.offer.id)"><span class="fs-4vw bold">Детальніше</span></button>
+      <div>
+        <div *ngFor="let orderedItem of order.orderedItems" class="card shadow">
+          <div class="d-flex gap-2vh">
+            <div class="m-auto">
+              <img [src]="orderedItem.offer.mediaList[0]?.source" class="img-fluid cart-item-image"
+                   alt="Зображення готелю">
+            </div>
+            <div class="col-md-8">
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column gap-2vh w-35">
+                  <div class="d-flex flex-column">
+                    <span class="fs-h2-vw fw-bold">Готель</span>
+                    <span class="fs-4vw fw-bold">{{ orderedItem.offer.name }}</span>
+                    <div class="d-flex gap-1vh align-items-center pb-1vw">
+                      <i class="fas fa-location-dot fs-7 align-items-center"></i>
+                      <span class="fs-2vw">{{ orderedItem.offer.location.city }}, {{ orderedItem.offer.location.country }}</span>
+                    </div>
+                    <span class="fs-2vw">{{ orderedItem.offer.address }}</span>
+                    <div class="d-flex justify-content-end">
+                      <button class="btn btn-success btn-lg order-button text-black" (click)="openDetails(orderedItem.offer.id)"><span class="fs-4vw bold">Детальніше</span></button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div *ngFor="let room of orderedItem.offer.rooms" class="cart-item-room">
-                <div class="d-flex flex-column gap-1vh">
-                  <span class="fs-5vw fw-bold">{{ room.roomType }}</span>
-                  <div>
-                    <ul class="list-unstyled p-0 m-0">
-                      <li class="fs-3vw"><span
-                        class="fw-bold">Дата заїзду: </span>{{ orderedItem.dateFrom | date:'mediumDate' }}
-                      </li>
-                      <li class="fs-3vw"><span
-                        class="fw-bold">Дата виїзду: </span>{{ orderedItem.dateTo | date:'mediumDate' }}
-                      </li>
-                      <li class="fs-3vw"><span
-                        class="fw-bold">Кількість ночей: </span>{{ getNumberOfNights(orderedItem.dateFrom, orderedItem.dateTo) }}
-                      </li>
-                      <li class="fs-3vw"><span class="fw-bold">Ціна за ніч: </span>{{ room.price }}₴</li>
-                      <li class="fs-3vw"><span
-                        class="fw-bold">Загальна сума: </span>{{ room.price * getNumberOfNights(orderedItem.dateFrom, orderedItem.dateTo) }}₴
-                      </li>
-                    </ul>
+                <div *ngFor="let room of orderedItem.offer.rooms" class="cart-item-room">
+                  <div class="d-flex flex-column gap-1vh">
+                    <span class="fs-5vw fw-bold">{{ room.roomType + ' × ' + orderedItem.numberOfRooms }}</span>
+                    <div>
+                      <ul class="list-unstyled p-0 m-0">
+                        <li class="fs-3vw"><span
+                          class="fw-bold">Дата заїзду: </span>{{ orderedItem.dateFrom | date:'mediumDate' }}
+                        </li>
+                        <li class="fs-3vw"><span
+                          class="fw-bold">Дата виїзду: </span>{{ orderedItem.dateTo | date:'mediumDate' }}
+                        </li>
+                        <li class="fs-3vw"><span
+                          class="fw-bold">Кількість ночей: </span>{{ getNumberOfNights(orderedItem.dateFrom, orderedItem.dateTo) }}
+                        </li>
+                        <li class="fs-3vw"><span class="fw-bold">Ціна за ніч: </span>{{ room.price }}₴</li>
+                        <li class="fs-3vw"><span
+                          class="fw-bold">Загальна сума: </span>{{ room.price * getNumberOfNights(orderedItem.dateFrom, orderedItem.dateTo) * orderedItem.numberOfRooms }}₴
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <div *ngIf="order.status === 'BOOKED'" class="d-flex justify-content-end">
+          <button class="btn btn-outline-danger delete-button btn-sm" (click)="cancelOrder(order)"><span class="fs-4vw bold">Скасувати</span></button>
         </div>
       </div>
     </div>

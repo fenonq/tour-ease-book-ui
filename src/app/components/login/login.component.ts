@@ -31,13 +31,17 @@ export class LoginComponent implements OnInit {
     private httpService: HttpService,
     private authorizationService: AuthorizationService
   ) {
-    this.loginForm = this.formBuilder.group({ // todo extract method
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(3)]]
-    });
   }
 
   ngOnInit(): void {
+    this.initLoginForm();
+  }
+
+  initLoginForm(): void {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(3)]]
+    });
   }
 
   onSubmit() {
@@ -45,19 +49,22 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const signInRq = {
-      username: this.loginForm.controls['username'].value, // todo
-      password: this.loginForm.controls['password'].value
-    } as SignInRequest;
+    const { username, password } = this.loginForm.controls;
 
-    this.httpService.post('http://localhost:8765/signIn', signInRq).subscribe({
+    const signInRequest: SignInRequest = {
+      username: username.value,
+      password: password.value
+    };
+
+    this.httpService.post('http://localhost:8765/signIn', signInRequest).subscribe({
       next: (response) => {
         this.authorizationService.setJwtToken(response.accessToken);
         this.router.navigate(['']);
       },
       error: (error) => {
-        console.log(error);
+        console.error('Login failed:', error);
       }
     });
   }
+
 }

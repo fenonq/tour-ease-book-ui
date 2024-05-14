@@ -7,7 +7,9 @@
           <div class="form-group fs-3vw">
             <label for="location">Локація:</label>
             <select class="form-select" id="location" formControlName="location">
-              <option *ngFor="let location of locations" [value]="location">{{ location }}</option>
+              <option *ngFor="let location of (locations | async)" [value]="location.id">
+                {{ location.city }}, {{ location.country }}
+              </option>
             </select>
           </div>
           <div class="form-group fs-3vw">
@@ -39,7 +41,7 @@
           </div>
 
           <span class="fw-bold fs-3vw">Кількість зірок:</span>
-          <div *ngFor="let star of [5, 4, 3, 2, 1]; let i = index">
+          <div *ngFor="let _ of [5, 4, 3, 2, 1]; let i = index">
             <label class="d-flex gap-1vh">
               <input type="checkbox" [formControlName]="'star' + (5 - i)">
               <div>
@@ -58,25 +60,3 @@
     </div>
   </div>
 </div>
-
-<!--<div class="d-flex gap-1vh w-75 m-auto">-->
-<!--  <div class="filters mx-auto" [formGroup]="filterForm">-->
-<!--    <div *ngFor="let amenity of (amenities | async)">-->
-<!--      <label>-->
-<!--        <input type="checkbox" [formControlName]="amenity">-->
-<!--        {{ amenity }}-->
-<!--      </label>-->
-<!--    </div>-->
-<!--    <div class="form-group fs-3vw">-->
-<!--      <label for="maxCapacity">Максимальна кількість людей:</label>-->
-<!--      <input formControlName="maxCapacity" type="number" id="maxCapacity" class="form-control"-->
-<!--             placeholder="Введіть число">-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div class="d-flex flex-column gap-1vh w-50 m-auto">-->
-<!--    <div class="mb-1" *ngFor="let offer of (filteredOffers | async)">-->
-<!--      <app-hotel *ngIf="offer.vendorType === 'HOTEL'" [hotel]="offer"></app-hotel>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--</div>-->

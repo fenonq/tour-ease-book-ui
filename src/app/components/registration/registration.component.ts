@@ -24,6 +24,7 @@ export interface SignUpRequest {
   styleUrl: './registration.component.css'
 })
 export class RegistrationComponent implements OnInit {
+
   registrationForm: FormGroup;
 
   constructor(
@@ -32,17 +33,21 @@ export class RegistrationComponent implements OnInit {
     private httpService: HttpService,
     private authorizationService: AuthorizationService
   ) {
-    this.registrationForm = this.fb.group({ // todo
+  }
+
+  ngOnInit(): void {
+    this.initRegistrationForm();
+  }
+
+  initRegistrationForm(): void {
+    this.registrationForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
-  ngOnInit(): void {
-  }
-
-  onSubmit() {
+  onSubmit(): void {
     if (this.registrationForm.invalid) {
       return;
     }

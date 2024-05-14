@@ -22,29 +22,16 @@ export class ShoppingCartService {
     this.saveCart(cart);
   }
 
-  // Видалення товару з кошика
   public removeItem(itemId: string, roomId?: string): void {
     let cart = this.getCart();
     cart = cart.filter(item => item.offerId !== itemId || (roomId && item.roomId !== roomId));
     this.saveCart(cart);
   }
 
-  // // Оновлення кількості товару
-  // public updateItemQuantity(itemId: number, quantity: number): void {
-  //   const cart = this.getCart();
-  //   const item = cart.find(item => item.id === itemId);
-  //   if (item) {
-  //     item.quantity = quantity; // Оновлюємо кількість
-  //     this.saveCart(cart);
-  //   }
-  // }
-
-  // Очищення кошика
   public clearCart(): void {
     localStorage.removeItem(this.STORAGE_KEY);
   }
 
-  // Зберігання кошика в локальному сховищі
   private saveCart(cart: Array<CartItem>): void {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart));
   }

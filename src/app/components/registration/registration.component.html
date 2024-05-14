@@ -3,39 +3,39 @@
     <div class="registration-container">
       <div class="input-form">
         <div class="header-block">
-          <h2>Sign Up</h2>
+          <h2>Реєстрація</h2>
           <img ngSrc="/assets/12332.png" class="background-image" alt="img" height="201" width="436" priority="1">
         </div>
         <form class="d-flex flex-column gap-1" [formGroup]="registrationForm" (ngSubmit)="onSubmit()" novalidate>
           <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">Логін</label>
             <input type="text" id="username" formControlName="username" class="form-control" [ngClass]="{'is-invalid': registrationForm.get('username')?.invalid && (registrationForm.get('username')?.dirty || registrationForm.get('username')?.touched)}">
             <div class="invalid-feedback"
                  *ngIf="registrationForm.get('username')?.invalid && (registrationForm.get('username')?.dirty || registrationForm.get('username')?.touched)">
-              Username is required.
+              Логін обов'язковий.
             </div>
           </div>
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">Електронна адреса</label>
             <input type="email" id="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid': registrationForm.get('email')?.invalid && (registrationForm.get('email')?.dirty || registrationForm.get('email')?.touched)}">
             <div class="invalid-feedback"
                  *ngIf="registrationForm.get('email')?.invalid && (registrationForm.get('email')?.dirty || registrationForm.get('email')?.touched)">
-              Please enter a valid email address.
+              Введіть правильну електронну адресу.
             </div>
           </div>
           <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">Пароль</label>
             <input type="password" id="password" formControlName="password" class="form-control" [ngClass]="{'is-invalid': registrationForm.get('password')?.invalid && (registrationForm.get('password')?.dirty || registrationForm.get('password')?.touched)}">
             <div class="invalid-feedback"
                  *ngIf="registrationForm.get('password')?.invalid && (registrationForm.get('password')?.dirty || registrationForm.get('password')?.touched)">
-              Password must be at least 6 characters long.
+              Пароль повинен містити як мінімум 3 символи.
             </div>
           </div>
           <div class="form-group text-center">
-            <button type="submit" [disabled]="!registrationForm.valid" class="btn btn-primary submit-button">Sign Up</button>
+            <button type="submit" [disabled]="!registrationForm.valid" class="btn btn-primary submit-button">Реєстрація</button>
           </div>
         </form>
-        <p class="hint-message text-center mt-3">Already have an account? <a href="/login" class="btn btn-link p-0 text-decoration-none">Sign In!</a></p>
+        <p class="hint-message text-center mt-3">Уже є акаунт? <a href="/login" class="btn btn-link p-0 text-decoration-none">Увійти!</a></p>
       </div>
     </div>
   </div>

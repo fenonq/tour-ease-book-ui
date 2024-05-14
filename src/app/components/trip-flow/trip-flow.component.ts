@@ -1,16 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {AsyncPipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {HttpService} from "../../services/http.service";
 import {SearchRequestService} from "../../services/search-request.service";
 import {Router} from "@angular/router";
-
-export interface GetOffersRequest {
-  vendorType: number;
-  location: number;
-  dateFrom: Date;
-  dateTo: Date;
-}
+import {Observable, shareReplay} from "rxjs";
+import {Location} from "../../models/core";
 
 @Component({
   selector: 'app-trip-flow',
@@ -21,7 +16,8 @@ export interface GetOffersRequest {
     NgOptimizedImage,
     ReactiveFormsModule,
     NgClass,
-    NgForOf
+    NgForOf,
+    AsyncPipe
   ],
   templateUrl: './trip-flow.component.html',
   styleUrl: './trip-flow.component.css'
@@ -29,18 +25,24 @@ export interface GetOffersRequest {
 export class TripFlowComponent implements OnInit {
 
   hotelSearchForm: FormGroup;
-  locations: string[] = ['Location 1', 'Location 2', '2']; // todo add locations to the database, create new container for them
+  locations: Observable<Array<Location>>;
   selectedForm: string = 'hotel';
 
   constructor(
     private formBuilder: FormBuilder,
     private searchRequest: SearchRequestService,
-    private router: Router
+    private router: Router,
+    private httpService: HttpService
   ) {
   }
 
   ngOnInit(): void {
     this.initSearchForm();
+    this.getLocations();
+  }
+
+  getLocations(): void {
+    this.locations = this.httpService.get(`http://localhost:8765/locations`).pipe(shareReplay(1));
   }
 
   initSearchForm(): void {
@@ -48,29 +50,31 @@ export class TripFlowComponent implements OnInit {
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required],
       location: ['', Validators.required]
-    });
+    }, {validators: this.validateDates});
   }
 
-  toggleForm(formType: string): void {
-    this.selectedForm = formType;
+  validateDates(control: FormGroup): { [key: string]: boolean } | null {
+    const dateFrom = control.get('dateFrom')?.value;
+    const dateTo = control.get('dateTo')?.value;
+
+    if (dateTo < dateFrom) {
+      return { 'invalidDateTo': true };
+    }
+
+    return null;
   }
 
   isHotelFormSelected(): boolean {
     return this.selectedForm === 'hotel';
   }
 
-  isActivityFormSelected(): boolean {
-    return this.selectedForm === 'activity';
-  }
-
-  onSubmit() {
+  onSubmit(): void {
     if (this.hotelSearchForm.invalid) {
       return;
     }
 
     this.searchRequest.setScope({...this.hotelSearchForm.value, vendorType: 1});
     this.router.navigate(['/travelOffers'])
-    console.log('Search parameters:', this.hotelSearchForm.value);
   }
 
 }

@@ -43,13 +43,10 @@
 .content-block {
   height: 40%;
   width: 44%;
-  /*background-color: #717375;*/
-  /*background-color: black;*/
   background-color: #f3f4f6;
 
   border-radius: 50px;
   box-shadow: -10px 15px 10px #414d5b;
-  /*box-shadow: -10px 15px 10px black;*/
 }
 
 .left-content-block {
@@ -103,12 +100,3 @@ button:hover {
 .submit-button {
   width: 40%;
 }
-
-/*@media only screen and (max-width: 1100px) {*/
-/*  .responsive-text {*/
-/*    font-size: 12px;*/
-/*    p {*/
-/*      font-size: 12px;*/
-/*    }*/
-/*  }*/
-/*}*/

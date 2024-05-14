@@ -114,7 +114,7 @@
         <span class="fs-3vw">Оцінка: {{ review.rating }} <i class="fas fa-star fa-star-color"></i></span>
       </div>
     </div>
-    <button *ngIf="offer.reviews?.length > displayedReviews" class="btn btn-primary offer-button text-black"
+    <button *ngIf="(offer.reviews || []).length > displayedReviews" class="btn btn-primary offer-button text-black"
             (click)="getMoreReviews()"><span class="fs-3vw">Більше</span></button>
   </div>
 </div>

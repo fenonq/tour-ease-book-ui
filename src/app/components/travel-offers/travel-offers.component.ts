@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {SearchRequestService} from "../../services/search-request.service";
 import {HttpService} from "../../services/http.service";
-import {map, mergeMap, Observable, reduce, shareReplay, startWith, switchMap} from "rxjs";
+import {from, map, mergeMap, Observable, reduce, shareReplay, startWith, switchMap} from "rxjs";
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
 import {HotelComponent} from "./hotel/hotel.component";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Hotel, Location} from "../../models/core";
 
 @Component({
   selector: 'app-travel-offers',
@@ -22,11 +23,11 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 })
 export class TravelOffersComponent implements OnInit {
 
-  travelOffers: Observable<any>;
-  filteredOffers: Observable<any>;
+  travelOffers: Observable<Array<Hotel>>;
+  filteredOffers: Observable<Array<Hotel>>;
   searchForm: FormGroup;
   filterForm: FormGroup;
-  locations: string[] = ['Location 1', 'Location 2', '2'];
+  locations: Observable<Array<Location>>;
   isExpanded = false;
   amenities: Observable<Array<string>>;
 
@@ -41,6 +42,7 @@ export class TravelOffersComponent implements OnInit {
     this.initSearchForm();
     this.loadOffers();
     this.initializeFilter();
+    this.getLocations();
   }
 
   initSearchForm(): void {
@@ -61,6 +63,10 @@ export class TravelOffersComponent implements OnInit {
     this.travelOffers = this.httpService.get(`http://localhost:8765/offers?locationId=${request.location}&dateFrom=${request.dateFrom}&dateTo=${request.dateTo}`).pipe(shareReplay(1));
   }
 
+  getLocations(): void {
+    this.locations = this.httpService.get(`http://localhost:8765/locations`).pipe(shareReplay(1));
+  }
+
   initializeFilter(): void {
     this.initializeFilterForm()
     this.collectAmenities();
@@ -79,11 +85,10 @@ export class TravelOffersComponent implements OnInit {
 
   collectAmenities(): void {
     this.amenities = this.travelOffers.pipe(
-      // @ts-ignore
-      mergeMap(offers => offers.map(offer => offer.amenities)), // Отримуємо масив масивів зручностей
-      // @ts-ignore
-      reduce((acc, amenities) => acc.concat(amenities), []), // Згортаємо всі масиви зручностей в один масив
-      map(amenities => Array.from(new Set(amenities))) // Видаляємо дублікати, формуючи Set і перетворюючи його назад в масив
+      mergeMap(offers => from(offers)),  // from() замість map() для перетворення масиву на Observable
+      map(offer => offer.amenities),
+      reduce((acc: string[], amenities: string[]) => acc.concat(amenities), []),
+      map(amenities => Array.from(new Set(amenities)))
     );
 
     this.amenities.subscribe(amenities => {
@@ -93,6 +98,7 @@ export class TravelOffersComponent implements OnInit {
     });
   }
 
+
   setupFilteredOffers(): void {
     this.filteredOffers = this.filterForm.valueChanges.pipe(
       startWith(this.filterForm.value),
@@ -100,9 +106,8 @@ export class TravelOffersComponent implements OnInit {
     );
   }
 
-  filterOffers(values: any): Observable<any> {
+  filterOffers(values: any): Observable<Array<Hotel>> {
     return this.travelOffers.pipe(
-      // @ts-ignore
       map(offers => offers.filter(offer => {
         const selectedAmenities = Object.keys(values).filter(key => key.startsWith('star') ? false : values[key]);
         const selectedStars = Object.keys(values).filter(key => key.startsWith('star') && values[key]).map(key => +key.replace('star', ''));
@@ -112,7 +117,7 @@ export class TravelOffersComponent implements OnInit {
     );
   }
 
-  cutAmenities(amenities: Array<string> | undefined): Array<string> {
+  cutAmenities(amenities: Array<string>): Array<string> {
     return amenities?.slice(0, 3) || [];
   }
 

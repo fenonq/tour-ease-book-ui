@@ -3,31 +3,31 @@
     <div class="registration-container">
       <div class="input-form">
         <div class="header-block">
-          <h2>Sign In</h2>
+          <h2>Вхід</h2>
           <img ngSrc="/assets/12332.png" class="background-image" alt="img" height="201" width="436" priority="1">
         </div>
         <form class="d-flex flex-column gap-1" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
           <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" formControlName="username" class="form-control" [ngClass]="{'is-invalid': loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)}">
+            <label for="username">Логін</label>
+            <input type="text" id="username" formControlName="username" class="form-control" autocomplete="username" [ngClass]="{'is-invalid': loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)}">
             <div class="invalid-feedback"
                  *ngIf="loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)">
-              Username is required.
+              Логін обов'язковий.
             </div>
           </div>
           <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" formControlName="password" class="form-control" [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)}">
+            <label for="password">Пароль</label>
+            <input type="password" id="password" formControlName="password" class="form-control" autocomplete="password" [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)}">
             <div class="invalid-feedback"
                  *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
-              Password must be at least 6 characters long.
+              Пароль повинен містити як мінімум 3 символи.
             </div>
           </div>
           <div class="form-group text-center">
-            <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary submit-button">Sign In</button>
+            <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary submit-button">Вхід</button>
           </div>
         </form>
-        <p class="hint-message text-center mt-3">Don't have an account? <a href="/registration" class="btn btn-link p-0 text-decoration-none">Sign Up!</a></p>
+        <p class="hint-message text-center mt-3">Немає аканту? <a href="/registration" class="btn btn-link p-0 text-decoration-none">Зареєструватись!</a></p>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {ShoppingCartService} from "../../../../services/shopping-cart.service";
 import {SearchRequestService} from "../../../../services/search-request.service";
-import {CartItem} from "../../../../models/core";
+import {BedType, CartItem, Room} from "../../../../models/core";
 import {FormsModule} from "@angular/forms";
 
 @Component({
@@ -19,7 +19,7 @@ import {FormsModule} from "@angular/forms";
 })
 export class HotelRoomComponent implements OnInit {
 
-  @Input() room: any;
+  @Input() room: Room;
   @Input() offerId: string;
 
   isAdded: boolean = false;
@@ -35,6 +35,17 @@ export class HotelRoomComponent implements OnInit {
     this.isAdded = !!this.cartService.getCart().find(item => item.offerId === this.offerId && item.roomId === this.room.roomId);
   }
 
+  getBedTitle(bedType: BedType, bedNumber: number): string {
+    switch (bedType) {
+      case BedType.DOUBLE_BED:
+        return bedNumber === 1 ? 'Двоспальне ліжко' : 'Двоспальні ліжка';
+      case BedType.SINGLE_BED:
+        return bedNumber === 1 ? 'Односпальне ліжко' : 'Односпальні ліжка';
+      default:
+        return 'Ліжко';
+    }
+  }
+
   addToCart(hotelId: string, roomId: string, numberOfRooms: number): void {
     if (numberOfRooms < 1 || numberOfRooms > this.room.numberOfAvailableRooms) {
       alert("Некоректна кількість кімнат!");
@@ -42,7 +53,6 @@ export class HotelRoomComponent implements OnInit {
     }
 
     const searchRq = this.searchRequestService.getScope();
-    console.log(searchRq);
     const item =
       {
         vendorType: 1,
@@ -52,7 +62,6 @@ export class HotelRoomComponent implements OnInit {
         dateFrom: searchRq.dateFrom,
         dateTo: searchRq.dateTo
       } as CartItem;
-    console.log(item)
     this.cartService.addItem(item);
     this.isAdded = true;
   }

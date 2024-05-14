@@ -1,20 +1,3 @@
-/*.background-image-1 {*/
-/*  background-image: url('/assets/img_19.jpg');*/
-/*  background-repeat: no-repeat;*/
-/*  background-attachment: fixed;*/
-/*  background-position: center;*/
-/*  background-size: cover;*/
-/*}*/
-
-/*.background-image-2 {*/
-/*  background-image: url('/assets/img_19.jpg');*/
-/*  height: 100vh;*/
-/*  background-repeat: no-repeat;*/
-/*  background-attachment: fixed;*/
-/*  background-position: center;*/
-/*  background-size: cover;*/
-/*}*/
-
 .main-container {
   justify-content: center;
   align-items: center;
@@ -32,7 +15,6 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  /*box-shadow: 1px 0 10px 1px rgba(0, 0, 0, 0.1);*/
 }
 
 .block-info {
@@ -72,7 +54,6 @@
   gap: 1vw;
   background-color: #f3f4f6;
   border-radius: 10px;
-  /*box-shadow: 1px 0 10px 1px rgba(0, 0, 0, 0.1);*/
   padding: 20px;
 }
 
@@ -86,32 +67,3 @@ label {
   cursor: pointer;
   text-decoration: underline;
 }
-
-
-
-/*.travel-offers-filter-block {*/
-/*  background-color: #f8f9fa; !* Світлий сірий колір для кращого вигляду *!*/
-/*  border: 1px solid #dee2e6; !* Додавання тонкої межі для більшої виразності *!*/
-/*  border-radius: 10px; !* Заокруглення кутів *!*/
-/*  padding: 1rem; !* Додавання внутрішнього відступу *!*/
-/*  margin: 1rem 0; !* Відступ зверху і знизу для візуального розділення від інших блоків *!*/
-/*}*/
-
-/*.block-info {*/
-/*  display: flex;*/
-/*  flex-wrap: wrap; !* Дозволяє елементам обтікати один одного, якщо не вистачає місця *!*/
-/*  align-items: center; !* Вирівнювання елементів по центру по вертикалі *!*/
-/*  gap: 10px; !* Відступи між дочірніми елементами *!*/
-/*}*/
-
-/*.block-info .form-group {*/
-/*  flex: 1 1 100%; !* Кожна група займає повну ширину контейнера *!*/
-/*}*/
-
-/*.block-info input[type="date"],*/
-/*.block-info input[type="text"] {*/
-/*  width: 100%; !* Ширина вводу дорівнює ширині контейнера групи *!*/
-/*  padding: 0.375rem 0.75rem; !* Поліпшення візуального відчуття поля вводу *!*/
-/*  border: 1px solid #ced4da;*/
-/*  border-radius: 0.25rem;*/
-/*}*/

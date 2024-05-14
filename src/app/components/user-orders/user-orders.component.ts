@@ -1,11 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {map, Observable, shareReplay} from "rxjs";
-import {CartItem} from "../../models/core";
-import {ShoppingCartService} from "../../services/shopping-cart.service";
+import {Order, OrderStatus} from "../../models/core";
 import {HttpService} from "../../services/http.service";
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
 import {TravelOfferDetailsComponent} from "../travel-offer-details/travel-offer-details.component";
-import $ from "jquery";
 import {Router} from "@angular/router";
 
 @Component({
@@ -23,7 +21,7 @@ import {Router} from "@angular/router";
 })
 export class UserOrdersComponent implements OnInit {
 
-  userOrders: Observable<any>;
+  userOrders: Observable<Array<Order>>;
 
   constructor(
     private router: Router,
@@ -32,17 +30,17 @@ export class UserOrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userOrders = this.getUserOrders().pipe(
+    this.loadUserOrders();
+  }
+
+  loadUserOrders(): void {
+    this.userOrders = this.httpService.get(`http://localhost:8765/userOrders`).pipe(
       map(orders => this.sortOrders(orders)),
       shareReplay(1)
     );
   }
 
-  getUserOrders(): Observable<any> {
-    return this.httpService.get(`http://localhost:8765/userOrders`);
-  }
-
-  sortOrders(orders: Array<any>): Array<any> {
+  sortOrders(orders: Array<Order>): Array<Order> {
     return orders.sort((a, b) => {
       const dateA = new Date(a.creationDateTime);
       const dateB = new Date(b.creationDateTime);
@@ -58,6 +56,36 @@ export class UserOrdersComponent implements OnInit {
 
   openDetails(offerId: string): void {
     this.router.navigate(['/travelOffers', offerId]);
+  }
+
+  getOrderStatus(orderStatus: OrderStatus): string {
+    switch (orderStatus) {
+      case OrderStatus.BOOKED:
+        return 'Заброньовано';
+      case OrderStatus.CANCELLED:
+        return 'Скаcовано';
+      default:
+        return 'Статус невідомий';
+    }
+  }
+
+  cancelOrder(order: Order): void {
+    const cancelledItems = order.orderedItems.map(item => ({
+      dateFrom: item.dateFrom,
+      dateTo: item.dateTo,
+      numberOfRooms: item.numberOfRooms,
+      hotelId: item.offer.id,
+      roomId: item.offer.rooms[0].roomId
+    }));
+
+    const cancelOrderRequest = {
+      orderId: order.id,
+      cancelledItems: cancelledItems
+    };
+
+    this.httpService.put('http://localhost:8765/cancelOrder', cancelOrderRequest).subscribe(() => {
+      this.loadUserOrders();
+    });
   }
 
 }

@@ -1,18 +1,10 @@
-/* shopping-cart.component.css */
 .container {
   padding: 20px;
 }
 
 .card {
   border-radius: 40px;
-  gap: 1.5vw;
 }
-
-/*.card-body {*/
-/*  display: flex;*/
-/*  justify-content: space-between;*/
-/*  align-items: center;*/
-/*}*/
 
 .img-fluid {
   max-height: 10vw;
@@ -37,18 +29,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Займає весь висоту екрана */
+  height: 100vh;
   text-align: center;
 }
 
 .cart-image-fs {
   font-size: 8vw;
-}
-
-.delete-button {
-  padding: 0.2vw 0.9vw;
-  margin-top: 0.6vw;
-  width: 60%;
 }
 
 .order-button {
@@ -72,4 +58,12 @@
 .error-button:hover {
   background-color: #dfe2e7;
   border-color: black;
+}
+
+.delete-button {
+  padding: 0.2vw 0.9vw;
+  margin: 1vw;
+  width: 10%;
+
+  border-radius: 7px;
 }

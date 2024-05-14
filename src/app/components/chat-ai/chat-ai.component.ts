@@ -33,7 +33,7 @@ export class ChatAiComponent implements OnInit, AfterViewChecked {
     this.messages = this.sessionService.getScope('aiChat') || [{role: 'system', content: 'Привіт!'}];
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
 
@@ -43,11 +43,11 @@ export class ChatAiComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  toggleChat() {
+  toggleChat(): void {
     this.showChat = !this.showChat;
   }
 
-  sendMessage() {
+  sendMessage(): void {
     const userMessage = this.newMessage.trim();
     if (userMessage) {
       this.messages.push({role: 'user', content: userMessage});
@@ -65,42 +65,4 @@ export class ChatAiComponent implements OnInit, AfterViewChecked {
       });
     }
   }
-
-  // showChat = false;
-  // newMessage = '';
-  // messages = [
-  //   { text: 'Привіт! Чим я можу Вам допомогти?', owner: false }
-  // ];
-  //
-  // constructor(
-  //   private httpService: HttpService,
-  // ) {
-  // }
-  //
-  // ngOnInit(): void {
-  // }
-  //
-  // toggleChat() {
-  //   this.showChat = !this.showChat;
-  // }
-  //
-  // sendMessage() {
-  //   console.log(this.messages);
-  //   const userMessage = this.newMessage.trim();
-  //   if (userMessage) {
-  //     this.messages.push({ text: userMessage, owner: true });
-  //     this.newMessage = ''; // Очистка поля вводу після відправки
-  //
-  //     this.httpService.get(`http://localhost:8765/chat?prompt=${userMessage}`).subscribe({
-  //       next: (response) => {
-  //         // Припускаємо, що сервер повертає об'єкт з полем 'text', яке містить відповідь
-  //         this.messages.push({ text: response.choices[0].message.content, owner: false });
-  //       },
-  //       error: (err) => {
-  //         // Обробка помилки, можливо, відобразити повідомлення про помилку
-  //         console.error('Error receiving response from AI:', err);
-  //       }
-  //     });
-  //   }
-  // }
 }

@@ -4,8 +4,9 @@ import {HttpService} from "../../services/http.service";
 import {from, map, mergeMap, Observable, of, reduce, shareReplay} from "rxjs";
 import {AsyncPipe, DatePipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {HotelComponent} from "../travel-offers/hotel/hotel.component";
-import {CartItem} from "../../models/core";
+import {CartItem, Hotel, Room} from "../../models/core";
 import {SearchRequestService} from "../../services/search-request.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -23,13 +24,14 @@ import {SearchRequestService} from "../../services/search-request.service";
 })
 export class ShoppingCartComponent implements OnInit {
 
-  cartOffersDetails: Observable<any>;
+  cartOffersDetails: Observable<Array<Hotel>>;
   uniqueCartItems: Array<CartItem>;
 
   constructor(
     public searchRequestService: SearchRequestService,
     public cartService: ShoppingCartService,
     private httpService: HttpService,
+    private router: Router,
   ) {
   }
 
@@ -47,26 +49,26 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
-  getCartOffersDetails(): Observable<any> {
+  getCartOffersDetails(): Observable<Array<Hotel>> {
     const offersIds = this.cartService.getCart().map(item => item.offerId).join();
     return this.httpService.get(`http://localhost:8765/cartOffersDetails/${offersIds}`);
   }
 
-  getHotelById(hotelId: string): Observable<any> {
+  getHotelById(hotelId: string): Observable<Hotel> {
     return this.cartOffersDetails.pipe(
-      // @ts-ignore
-      map(hotels => hotels.find(hotel => hotel.id === hotelId))
+      map(hotels => hotels.find(hotel => hotel.id === hotelId)),
+      map(hotel => hotel || ({} as Hotel))
     );
   }
 
-  getRoomsByHotelId(hotelId: string): Observable<any> {
+  getRoomsByHotelId(hotelId: string): Observable<Array<Room>> {
     const selectedRoomsIdsByHotelId = this.cartService.getCart()
       .filter(offer => offer.offerId === hotelId)
       .map(offer => offer.roomId);
 
     return this.cartOffersDetails.pipe(
-      // @ts-ignore
-      map(hotels => hotels.find(hotel => hotel.id === hotelId)?.rooms.filter(room => selectedRoomsIdsByHotelId.includes(room.roomId)))
+      map(hotels => hotels.find(hotel => hotel.id === hotelId)?.rooms.filter(room => selectedRoomsIdsByHotelId.includes(room.roomId))),
+      map(rooms => rooms || [])
     );
   }
 
@@ -91,10 +93,8 @@ export class ShoppingCartComponent implements OnInit {
     return from(cartItems).pipe(
       mergeMap(cartItem =>
         this.cartOffersDetails.pipe(
-          // @ts-ignore
           map(hotels => hotels.find(hotel => hotel.id === cartItem.offerId)),
           map(hotel => {
-            // @ts-ignore
             const room = hotel ? hotel.rooms.find(r => r.roomId === cartItem.roomId) : null;
             const nights = this.getNumberOfNights(cartItem);
             return room ? room.price * nights * cartItem.numberOfRooms : 0;
@@ -117,6 +117,8 @@ export class ShoppingCartComponent implements OnInit {
       }
     }).subscribe();
     this.searchRequestService.removeScope();
+    this.clear();
+    this.router.navigate(['/orders'])
   }
 
   clear(): void {

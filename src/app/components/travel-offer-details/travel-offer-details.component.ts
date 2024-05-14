@@ -6,6 +6,7 @@ import {AsyncPipe, NgClass, NgForOf, NgIf, TitleCasePipe, ViewportScroller} from
 import {HotelRoomComponent} from "./hotel/room/hotel-room.component";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SearchRequestService} from "../../services/search-request.service";
+import {Hotel, Review} from "../../models/core";
 
 
 @Component({
@@ -25,7 +26,7 @@ import {SearchRequestService} from "../../services/search-request.service";
 })
 export class TravelOfferDetailsComponent implements OnInit {
 
-  travelOfferDetails: Observable<any>;
+  travelOfferDetails: Observable<Hotel>;
   displayedReviews = 3;
   isAddingReview = false;
   reviewForm: FormGroup;
@@ -41,8 +42,11 @@ export class TravelOfferDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.travelOfferDetails = this.getTravelOfferDetails().pipe(shareReplay(1));
+    this.getTravelOfferDetails();
+    this.initReviewForm();
+  }
 
+  initReviewForm(): void {
     this.reviewForm = this.fb.group({
       comment: ['', Validators.required],
       rating: ['', [Validators.required, Validators.min(1), Validators.max(5)]]
@@ -58,10 +62,9 @@ export class TravelOfferDetailsComponent implements OnInit {
     if (this.reviewForm.valid) {
       const reviewData = this.reviewForm.value;
       this.httpService.put(`http://localhost:8765/offerReviews/add/${this.offerId}`, reviewData).subscribe({
-        next: (response) => {
-          console.log('Review added', response);
+        next: () => {
           this.toggleReviewForm(false);
-          this.travelOfferDetails = this.getTravelOfferDetails().pipe(shareReplay(1));
+          this.getTravelOfferDetails();
         },
         error: (error) => {
           console.error('Error adding review', error);
@@ -70,18 +73,19 @@ export class TravelOfferDetailsComponent implements OnInit {
     }
   }
 
-  getTravelOfferDetails(): Observable<any> {
-    return this.route.params.pipe(
+  getTravelOfferDetails(): void {
+    this.travelOfferDetails = this.route.params.pipe(
       switchMap(params => {
         this.offerId = params['id'];
         const request = this.searchRequestService.getScope();
-        return this.httpService.get(`http://localhost:8765/offers/${this.offerId}?dateFrom=${request.dateFrom}&dateTo=${request.dateTo}`);
-      })
+        return this.httpService.get(`http://localhost:8765/offers/${this.offerId}?dateFrom=${request ? request.dateFrom : '2000-01-01'}&dateTo=${request ? request.dateTo : '2000-01-02'}`);
+      }),
+      shareReplay(1)
     );
   }
 
-  getLastReviews(reviews: any): Array<any> {
-    return reviews.slice(0, this.displayedReviews);
+  getLastReviews(reviews: Array<Review>): Array<Review> {
+    return reviews?.slice(0, this.displayedReviews);
   }
 
   getMoreReviews(): void {
@@ -93,7 +97,6 @@ export class TravelOfferDetailsComponent implements OnInit {
       return '0';
     }
     const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
-
     return (totalRating / reviews.length).toFixed(2);
   }
 

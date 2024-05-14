@@ -14,7 +14,6 @@ export class HttpService {
   ) {
   }
 
-  // Метод для виконання GET-запиту
   get(url: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -29,7 +28,6 @@ export class HttpService {
       );
   }
 
-  // Метод для виконання POST-запиту
   post(url: string, data: any): Observable<any> {
     const isAuthRoute = url.includes('signIn') || url.includes('signUp');
 
@@ -46,7 +44,6 @@ export class HttpService {
       );
   }
 
-  // Метод для виконання PUT-запиту
   put(url: string, data: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -61,7 +58,6 @@ export class HttpService {
       );
   }
 
-  // Метод для виконання DELETE-запиту
   delete(url: string): Observable<any> {
     return this.http.delete(url)
       .pipe(

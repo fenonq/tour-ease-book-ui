@@ -8,13 +8,6 @@
   align-items: center;
 }
 
-/*.background-container {*/
-/*  width: 30%;*/
-/*  margin-top: 20px;*/
-/*  border-radius: 20px;*/
-/*  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
-/*}*/
-
 .registration-container {
   width: 25%;
   border: 1px solid #ccc;
@@ -59,7 +52,7 @@ input {
 }
 
 .border-radius-left {
-  border-radius: 20px 0 0 0;
+  border-radius: 20px 20px 0 0;
 }
 
 .border-radius-right {
