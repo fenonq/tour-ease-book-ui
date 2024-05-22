@@ -24,6 +24,7 @@ export interface SignInRequest {
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  loginError: string;
 
   constructor(
     private router: Router,
@@ -62,6 +63,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['']);
       },
       error: (error) => {
+        this.loginError = 'Неправильний логін або пароль.';
         console.error('Login failed:', error);
       }
     });

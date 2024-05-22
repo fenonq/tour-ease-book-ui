@@ -98,7 +98,6 @@ export class TravelOffersComponent implements OnInit {
     });
   }
 
-
   setupFilteredOffers(): void {
     this.filteredOffers = this.filterForm.valueChanges.pipe(
       startWith(this.filterForm.value),
@@ -132,5 +131,4 @@ export class TravelOffersComponent implements OnInit {
       this.initializeFilter();
     }
   }
-
 }

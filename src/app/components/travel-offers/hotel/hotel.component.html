@@ -2,7 +2,7 @@
   <div class="d-flex w-100 h-100 my-auto">
     <div class="image-block">
       <img class="offer-card-img"
-           src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/169124345.jpg?k=d4cfda0944783ff4dbcf081725203598e8e54871b44e057c569712795acffdd5&o=&hp=1"
+           src="{{ hotel.mediaList[0].source }}"
            alt="Hotel Image">
     </div>
     <div class="d-flex flex-column w-60 h-100">
@@ -34,7 +34,7 @@
       </div>
       <div class="d-flex flex-column align-items-end p-2vw">
         <span class="fs-1vw fw-bold">Ціна починається з:</span>
-        <span class="fs-6vw fw-bold">{{getOfferMinPrice(hotel)}} $</span>
+        <span class="fs-6vw fw-bold">{{getOfferMinPrice(hotel)}} ₴</span>
         <span class="fs-1vw fw-bold">за ніч</span>
         <button (click)="getTravelOfferDetails(hotel.id)" class="btn btn-primary offer-button text-black"><span class="fs-2vw">Детальніше</span></button>
       </div>

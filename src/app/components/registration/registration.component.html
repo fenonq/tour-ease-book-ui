@@ -31,6 +31,9 @@
               Пароль повинен містити як мінімум 3 символи.
             </div>
           </div>
+          <div *ngIf="registrationError" class="alert alert-danger" role="alert">
+            {{ registrationError }}
+          </div>
           <div class="form-group text-center">
             <button type="submit" [disabled]="!registrationForm.valid" class="btn btn-primary submit-button">Реєстрація</button>
           </div>

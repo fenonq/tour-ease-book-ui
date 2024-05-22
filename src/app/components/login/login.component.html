@@ -3,7 +3,7 @@
     <div class="registration-container">
       <div class="input-form">
         <div class="header-block">
-          <h2>Вхід</h2>
+          <p class="fs-h2-vw fw-bold">Вхід</p>
           <img ngSrc="/assets/12332.png" class="background-image" alt="img" height="201" width="436" priority="1">
         </div>
         <form class="d-flex flex-column gap-1" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
@@ -22,6 +22,9 @@
                  *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
               Пароль повинен містити як мінімум 3 символи.
             </div>
+          </div>
+          <div *ngIf="loginError" class="alert alert-danger" role="alert">
+            {{ loginError }}
           </div>
           <div class="form-group text-center">
             <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary submit-button">Вхід</button>

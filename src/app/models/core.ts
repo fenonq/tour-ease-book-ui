@@ -1,6 +1,7 @@
 export enum BedType {
   DOUBLE_BED = 'DOUBLE_BED',
-  SINGLE_BED = 'SINGLE_BED'
+  SINGLE_BED = 'SINGLE_BED',
+  KING_BED = 'KING_BED'
 }
 
 export enum OrderStatus {

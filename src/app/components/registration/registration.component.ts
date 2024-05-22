@@ -24,7 +24,7 @@ export interface SignUpRequest {
   styleUrl: './registration.component.css'
 })
 export class RegistrationComponent implements OnInit {
-
+  registrationError: string;
   registrationForm: FormGroup;
 
   constructor(
@@ -64,6 +64,7 @@ export class RegistrationComponent implements OnInit {
         this.router.navigate(['']);
       },
       error: (error) => {
+        this.registrationError = 'Такий користувач уже існує.';
         console.log(error);
       }
     });

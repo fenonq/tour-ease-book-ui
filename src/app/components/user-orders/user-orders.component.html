@@ -23,7 +23,7 @@
         </div>
       </div>
       <div>
-        <div *ngFor="let orderedItem of order.orderedItems" class="card shadow">
+        <div *ngFor="let orderedItem of order.orderedItems" class="card shadow mt-1">
           <div class="d-flex gap-2vh">
             <div class="m-auto">
               <img [src]="orderedItem.offer.mediaList[0]?.source" class="img-fluid cart-item-image"

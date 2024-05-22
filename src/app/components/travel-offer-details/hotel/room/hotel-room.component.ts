@@ -41,6 +41,8 @@ export class HotelRoomComponent implements OnInit {
         return bedNumber === 1 ? 'Двоспальне ліжко' : 'Двоспальні ліжка';
       case BedType.SINGLE_BED:
         return bedNumber === 1 ? 'Односпальне ліжко' : 'Односпальні ліжка';
+      case BedType.KING_BED:
+        return bedNumber === 1 ? 'Велике двоспальне ліжко' : 'Великі двоспальні ліжка';
       default:
         return 'Ліжко';
     }

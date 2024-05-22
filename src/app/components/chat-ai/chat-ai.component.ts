@@ -33,20 +33,6 @@ export class ChatAiComponent implements OnInit, AfterViewChecked {
     this.messages = this.sessionService.getScope('aiChat') || [{role: 'system', content: 'Привіт!'}];
   }
 
-  ngAfterViewChecked(): void {
-    this.scrollToBottom();
-  }
-
-  scrollToBottom(): void {
-    if (this.chatContainer) {
-      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
-    }
-  }
-
-  toggleChat(): void {
-    this.showChat = !this.showChat;
-  }
-
   sendMessage(): void {
     const userMessage = this.newMessage.trim();
     if (userMessage) {
@@ -65,4 +51,20 @@ export class ChatAiComponent implements OnInit, AfterViewChecked {
       });
     }
   }
+
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    if (this.chatContainer) {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    }
+  }
+
+  toggleChat(): void {
+    this.showChat = !this.showChat;
+  }
+
+
 }

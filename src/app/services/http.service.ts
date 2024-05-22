@@ -23,7 +23,7 @@ export class HttpService {
     return this.http.get(url, {headers})
       .pipe(
         catchError(error => {
-          throw 'Помилка при виконанні GET-запиту: ' + error;
+          throw 'Error during GET-request: ' + error;
         })
       );
   }
@@ -39,7 +39,7 @@ export class HttpService {
     return this.http.post(url, data, {headers})
       .pipe(
         catchError(error => {
-          throw 'Помилка при виконанні POST-запиту: ' + error;
+          throw 'Error during POST-request: ' + error;
         })
       );
   }
@@ -53,7 +53,7 @@ export class HttpService {
     return this.http.put(url, data, { headers })
       .pipe(
         catchError(error => {
-          throw 'Помилка при виконанні PUT-запиту: ' + error;
+          throw 'Error during PUT-request: ' + error;
         })
       );
   }
@@ -62,7 +62,7 @@ export class HttpService {
     return this.http.delete(url)
       .pipe(
         catchError(error => {
-          throw 'Помилка при виконанні DELETE-запиту: ' + error;
+          throw 'Error during DELETE-request: ' + error;
         })
       );
   }
