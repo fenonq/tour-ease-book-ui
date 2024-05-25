@@ -115,10 +115,13 @@ export class ShoppingCartComponent implements OnInit {
       cart: {
         cartItems: this.cartService.getCart()
       }
-    }).subscribe();
-    this.searchRequestService.removeScope();
-    this.clear();
-    this.router.navigate(['/orders'])
+    }).subscribe({
+      next: () => {
+        this.searchRequestService.removeScope();
+        this.clear();
+        this.router.navigate(['/orders']);
+      }
+    });
   }
 
   clear(): void {
