@@ -7,25 +7,82 @@ import {HotelComponent} from "../travel-offers/hotel/hotel.component";
 import {CartItem, Hotel, Room} from "../../models/core";
 import {SearchRequestService} from "../../services/search-request.service";
 import {Router} from "@angular/router";
+import {GooglePayButtonModule} from "@google-pay/button-angular";
 
 @Component({
   selector: 'app-shopping-cart',
   standalone: true,
-    imports: [
-        AsyncPipe,
-        HotelComponent,
-        NgForOf,
-        NgIf,
-        TitleCasePipe,
-        DatePipe
-    ],
+  imports: [
+    AsyncPipe,
+    HotelComponent,
+    NgForOf,
+    NgIf,
+    TitleCasePipe,
+    DatePipe,
+    GooglePayButtonModule
+  ],
   templateUrl: './shopping-cart.component.html',
-  styleUrl: './shopping-cart.component.css'
+  styleUrls: ['./shopping-cart.component.css']
 })
 export class ShoppingCartComponent implements OnInit {
 
   cartOffersDetails: Observable<Array<Hotel>>;
   uniqueCartItems: Array<CartItem>;
+  totalPrice: string = '0.00';
+
+  paymentRequest: google.payments.api.PaymentDataRequest = {
+    apiVersion: 2,
+    apiVersionMinor: 0,
+    allowedPaymentMethods: [
+      {
+        type: "CARD",
+        parameters: {
+          allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+          allowedCardNetworks: ['VISA', "MASTERCARD"]
+        },
+        tokenizationSpecification: {
+          type: "PAYMENT_GATEWAY",
+          parameters: {
+            gateway: 'example',
+            gatewayMerchantId: 'exampleMerchantId'
+          }
+        }
+      }
+    ],
+    merchantInfo: {
+      merchantId: '12345678901234567890',
+      merchantName: 'Demo Merchant'
+    },
+    transactionInfo: {
+      totalPriceStatus: 'FINAL',
+      totalPriceLabel: 'Total',
+      totalPrice: this.totalPrice,
+      currencyCode: 'UAH',
+      countryCode: 'UA'
+    },
+    callbackIntents: ["PAYMENT_AUTHORIZATION"]
+  };
+
+  onLoadPaymentData = (
+    event: Event
+  ): void => {
+    const eventDetail = event as CustomEvent<google.payments.api.PaymentData>;
+    console.log('load payment data', eventDetail.detail);
+  }
+
+  onPaymentDataAuthorized: google.payments.api.PaymentAuthorizedHandler = (
+    paymentData
+  ) => {
+    console.log('payment authorized', paymentData);
+    this.order();
+    return {
+      transactionState: 'SUCCESS'
+    };
+  }
+
+  onError = (event: ErrorEvent): void => {
+    console.error('error', event.error);
+  }
 
   constructor(
     public searchRequestService: SearchRequestService,
@@ -38,6 +95,7 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit(): void {
     this.getUniqueCartItems();
     this.cartOffersDetails = this.getCartOffersDetails().pipe(shareReplay(1));
+    this.updateTotalPrice();
   }
 
   getUniqueCartItems(): void {
@@ -105,9 +163,20 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
 
+  updateTotalPrice(): void {
+    this.getTotalPrice().subscribe({
+      next: (price) => {
+        this.totalPrice = price.toFixed(2);
+        // update paymentRequest's totalPrice
+        this.paymentRequest.transactionInfo.totalPrice = this.totalPrice;
+      }
+    });
+  }
+
   removeItem(offerId: string, roomId?: string) {
     this.cartService.removeItem(offerId, roomId)
     this.getUniqueCartItems();
+    this.updateTotalPrice();
   }
 
   order(): void {
@@ -127,6 +196,7 @@ export class ShoppingCartComponent implements OnInit {
   clear(): void {
     this.cartService.clearCart();
     this.getUniqueCartItems();
+    this.updateTotalPrice();
   }
 
 }

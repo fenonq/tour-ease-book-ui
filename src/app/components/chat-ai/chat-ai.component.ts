@@ -66,5 +66,4 @@ export class ChatAiComponent implements OnInit, AfterViewChecked {
     this.showChat = !this.showChat;
   }
 
-
 }

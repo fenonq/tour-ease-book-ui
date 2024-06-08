@@ -7,6 +7,7 @@ import {TravelOffersComponent} from "./components/travel-offers/travel-offers.co
 import {TravelOfferDetailsComponent} from "./components/travel-offer-details/travel-offer-details.component";
 import {ShoppingCartComponent} from "./components/shopping-cart/shopping-cart.component";
 import {UserOrdersComponent} from "./components/user-orders/user-orders.component";
+import {AddHotelComponent} from "./components/add-hotel/add-hotel.component";
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,4 +18,5 @@ export const routes: Routes = [
   { path: 'orders', component: UserOrdersComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'addHotel', component: AddHotelComponent },
 ];

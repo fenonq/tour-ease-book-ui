@@ -44,54 +44,28 @@
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-end">
-      <span class="fs-4vw">До сплати: {{ getTotalPrice() | async }}₴</span>
-    </div>
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-success btn-lg order-button text-black" (click)="order()"><span class="fs-4vw bold">Оформити замовлення</span></button>
-    </div>
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-success btn-lg order-button text-black" (click)="clear()"><span class="fs-4vw bold">Очистити кошик</span></button>
+    <div class="d-flex gap-1vh flex-column">
+      <div class="d-flex justify-content-end">
+        <span class="fs-6vw">До сплати: {{ getTotalPrice() | async }}₴</span>
+      </div>
+      <div class="d-flex flex-column">
+        <div class="d-flex justify-content-end">
+          <!--      <button class="btn btn-success btn-lg order-button text-black" (click)="order()"><span class="fs-4vw bold">Оформити замовлення</span></button>-->
+          <google-pay-button
+            environment="TEST"
+            buttonSizeMode="fill"
+            buttonColor="black"
+            buttonType="pay"
+            [paymentRequest]="paymentRequest"
+            [paymentAuthorizedCallback]="onPaymentDataAuthorized"
+            (loadedmetadata)="onLoadPaymentData($event)"
+            (error)="onError($event)">
+          </google-pay-button>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-success btn-lg order-button text-black" (click)="clear()"><span class="fs-4vw bold">Очистити кошик</span></button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-<!--<div class="container mt-5">-->
-<!--  <div class="row">-->
-<!--    <div class="col-md-8">-->
-<!--      <h2 class="mb-3">Order Summary</h2>-->
-<!--      <div class="card">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">3 Items</h5>-->
-<!--          <span class="card-text">$480.00</span>-->
-<!--          <div class="pt-3">-->
-<!--            <h6>Shipping</h6>-->
-<!--            <div class="input-group mb-3">-->
-<!--              <input type="text" class="form-control" placeholder="Second Delivery" aria-label="Shipping" value="$5.00">-->
-<!--              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Options</button>-->
-<!--              <ul class="dropdown-menu dropdown-menu-end">-->
-<!--                <li><a class="dropdown-item" href="#">Shopping</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Images</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">News</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Finance</a></li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--            <h6>Promo Code</h6>-->
-<!--            <input type="text" class="form-control" placeholder="xxxx xxxx xxxx">-->
-<!--            <button class="btn btn-primary mt-3">Apply</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="col-md-4 bg-light py-5">-->
-<!--      <div class="sticky-top" style="top: 20px;">-->
-<!--        <h4 class="mb-3">Checkout</h4>-->
-<!--        <div>-->
-<!--          <p class="mb-2">3 Items</p>-->
-<!--          <p class="mb-2">$485.00</p>-->
-<!--          <button class="btn btn-success w-100">Checkout</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->

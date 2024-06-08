@@ -70,6 +70,10 @@
   border-radius: 100px;
 }
 
+.chat-toggle-btn:hover {
+  background-color: #2c6ab2;
+}
+
 .message {
   max-width: 80%;
   width: max-content;

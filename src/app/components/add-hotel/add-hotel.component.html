@@ -1,0 +1,112 @@
+<div class="container py-5">
+  <span class="fs-h1-vw mt-5">Додати новий готель</span>
+  <div class="card p-4 mt-4">
+    <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="name" class="form-label"><span class="fs-3vw">Назва:</span></label>
+        <input id="name" formControlName="name" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="address" class="form-label"><span class="fs-3vw">Адреса:</span></label>
+        <input id="address" formControlName="address" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label"><span class="fs-3vw">Опис:</span></label>
+        <textarea id="description" formControlName="description" class="form-control"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="stars" class="form-label"><span class="fs-3vw">Кількість зірок:</span></label>
+        <input id="stars" type="number" formControlName="stars" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="locationId" class="form-label"><span class="fs-3vw">ID Локації:</span></label>
+        <select class="form-select" id="locationId" formControlName="locationId">
+          <option *ngFor="let location of (locations | async)" [value]="location.id">
+            {{ location.city }}, {{ location.country }}
+          </option>
+        </select>
+      </div>
+
+      <div formArrayName="amenities" class="mb-3">
+        <div class="d-flex gap-1vh align-items-center">
+          <label class="form-label"><span class="fs-3vw">Зручності:</span></label>
+          <button type="button" class="btn btn-secondary btn-sm mb-2" (click)="addAmenity()"><span class="fs-3vw">Додати зручність</span></button>
+        </div>
+        <div *ngFor="let amenity of amenities.controls; let i = index" class="input-group mb-2">
+          <input [formControlName]="i" class="form-control">
+          <button type="button" class="btn btn-danger btn-sm" (click)="removeAmenity(i)"><span class="fs-3vw">Видалити</span></button>
+        </div>
+      </div>
+
+      <div formArrayName="mediaList" class="mb-3">
+        <div class="d-flex gap-1vh align-items-center">
+          <label class="form-label"><span class="fs-3vw">Список медіа:</span></label>
+          <button type="button" class="btn btn-secondary btn-sm mb-2" (click)="addMedia()"><span class="fs-3vw">Додати медіа</span></button>
+        </div>
+        <div *ngFor="let media of mediaList.controls; let i = index" [formGroupName]="i" class="mb-2">
+          <div class="input-group mb-2">
+            <label for="type" class="input-group-text"><span class="fs-3vw">Тип:</span></label>
+            <input id="type" formControlName="type" class="form-control">
+          </div>
+          <div class="input-group mb-2">
+            <label for="source" class="input-group-text"><span class="fs-3vw">Джерело:</span></label>
+            <input id="source" formControlName="source" class="form-control">
+          </div>
+          <button type="button" class="btn btn-danger btn-sm" (click)="removeMedia(i)"><span class="fs-3vw">Видалити</span></button>
+        </div>
+      </div>
+
+      <div formArrayName="rooms" class="mb-3">
+        <div class="d-flex gap-1vh align-items-center">
+          <label class="form-label"><span class="fs-3vw">Кімнати:</span></label>
+          <button type="button" class="btn btn-secondary btn-sm mb-2" (click)="addRoom()"><span class="fs-3vw">Додати кімнату</span></button>
+        </div>
+        <div *ngFor="let room of rooms.controls; let i = index" [formGroupName]="i" class="mb-2">
+          <div class="input-group mb-2">
+            <label for="roomId" class="input-group-text"><span class="fs-3vw">ID Кімнати:</span></label>
+            <input id="roomId" formControlName="roomId" class="form-control">
+          </div>
+          <div class="input-group mb-2">
+            <label for="roomType" class="input-group-text"><span class="fs-3vw">Тип кімнати:</span></label>
+            <input id="roomType" formControlName="roomType" class="form-control">
+          </div>
+          <div class="input-group mb-2">
+            <label for="capacity" class="input-group-text"><span class="fs-3vw">Вмістимість:</span></label>
+            <input id="capacity" formControlName="capacity" class="form-control">
+          </div>
+          <div class="input-group mb-2">
+            <label for="numberOfRooms" class="input-group-text"><span class="fs-3vw">Кількість кімнат:</span></label>
+            <input id="numberOfRooms" formControlName="numberOfRooms" class="form-control">
+          </div>
+          <div class="input-group mb-2">
+            <label for="price" class="input-group-text"><span class="fs-3vw">Ціна:</span></label>
+            <input id="price" formControlName="price" class="form-control">
+          </div>
+          <button type="button" class="btn btn-danger btn-sm mb-2" (click)="removeRoom(i)"><span class="fs-3vw">Видалити кімнату</span></button>
+
+          <div formArrayName="beds" class="mb-3">
+            <div class="d-flex gap-1vh align-items-center">
+              <label class="form-label"><span class="fs-3vw">Ліжка:</span></label>
+              <button type="button" class="btn btn-secondary btn-sm mb-2" (click)="addBed(i)"><span class="fs-3vw">Додати ліжко</span></button>
+            </div>
+            <div *ngFor="let bed of getBeds(i).controls; let j = index" [formGroupName]="j" class="mb-2">
+              <div class="input-group mb-2">
+                <label for="type" class="input-group-text"><span class="fs-3vw">Тип:</span></label>
+                <select formControlName="type" class="form-select">
+                  <option [ngValue]="bedType" *ngFor="let bedType of bedTypes">{{ getBedTitle(bedType) }}</option>
+                </select>
+              </div>
+              <div class="input-group mb-2">
+                <label for="number" class="input-group-text"><span class="fs-3vw">Кількість:</span></label>
+                <input id="number" formControlName="number" class="form-control">
+              </div>
+              <button type="button" class="btn btn-danger btn-sm" (click)="removeBed(i, j)"><span class="fs-3vw">Видалити ліжко</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary submit-button"><span class="fs-3vw">Підтвердити</span></button>
+    </form>
+  </div>
+</div>
